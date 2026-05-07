@@ -912,6 +912,115 @@
     </div>
   </section>
 
+  <!-- 파일럿 트랙 2 -->
+  <section class="section">
+    <div class="eyebrow">Pilot Track 2</div>
+    <div class="sec-title">템플릿 AI 양산</div>
+    <div class="sec-desc">템플릿은 많을수록, 자세할수록 유효하다. 사람이 하나씩 만들던 방식에서 MD 기반 구조화로 전환하고, AI가 양산을 인수하는 과정을 테스트한다.</div>
+    <hr class="rule">
+
+    <!-- 핵심 전제 -->
+    <div style="background:var(--dark); border-radius:12px; padding:36px 40px; margin-bottom:24px; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:-60px; right:-60px; width:240px; height:240px; background:radial-gradient(circle, rgba(27,67,255,0.12) 0%, transparent 70%); pointer-events:none;"></div>
+      <div style="font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--blue); margin-bottom:14px;">핵심 전제</div>
+      <div style="font-size:20px; font-weight:600; color:#fff; letter-spacing:-0.02em; line-height:1.4; max-width:640px; margin-bottom:16px;">
+        Template + MD —
+        <span style="color:var(--blue);">다시 어디까지 만들 수 있나 테스트하기</span>
+      </div>
+      <div style="font-size:13px; color:rgba(255,255,255,0.42); line-height:1.75; max-width:580px;">
+        템플릿을 잘 만든다는 건 구조를 명확하게 정의한다는 것. MD로 구조가 정의되면 AI가 그 위에서 변형·양산할 수 있다. 사람은 기준을 만들고, AI는 반복을 처리한다.
+      </div>
+    </div>
+
+    <!-- 템플릿 양산 흐름 -->
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:24px;">
+
+      <div style="background:var(--bg); padding:22px 18px;">
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;">Step 1</div>
+        <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.4;">기존 템플릿 해부</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.65;">현재 쓰이는 템플릿 중 반복 빈도가 높은 것 선정. 구조·변수·고정 요소를 분해해서 MD로 명문화.</div>
+        <div style="margin-top:12px; padding:8px 10px; background:var(--bg-subtle); border-radius:4px; font-size:11px; color:var(--text-secondary);">예: PPT 행사 템플릿 → 섹션 구조, 텍스트 변수, 컬러 적용 규칙 분리</div>
+      </div>
+
+      <div style="background:var(--bg); padding:22px 18px; border-left:1px solid var(--border);">
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;">Step 2</div>
+        <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.4;">MD 스펙 작성</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.65;">템플릿의 구조를 MD로 정의. AI가 읽고 변형할 수 있는 형태. 고정값·변수·조건부 규칙을 명확하게.</div>
+        <div style="margin-top:12px; padding:8px 10px; background:var(--bg-subtle); border-radius:4px; font-size:11px; color:var(--text-secondary);">이 MD가 AI 양산의 설계도이자 아카이빙 사이트의 스펙 문서가 됨</div>
+      </div>
+
+      <div style="background:var(--bg); padding:22px 18px; border-left:1px solid var(--border);">
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;">Step 3</div>
+        <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.4;">AI 변형·양산 테스트</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.65;">MD 스펙을 AI에 주입하고 변수를 바꿔가며 템플릿 변형을 생성. 어디까지 AI가 만들 수 있는지 한계를 테스트.</div>
+        <div style="margin-top:12px; padding:8px 10px; background:var(--bg-subtle); border-radius:4px; font-size:11px; color:var(--text-secondary);">행사명·날짜·색상·언어가 바뀌어도 BXD 기준이 유지되는지 검증</div>
+      </div>
+
+      <div style="background:var(--bg); padding:22px 18px; border-left:1px solid var(--border);">
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;">Step 4</div>
+        <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.4;">Figma Make 연동</div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.65;">테스트된 MD 스펙을 Figma Make 임포트 구조로 전환. 사이트에서 스펙 확인 → Figma Make에서 바로 양산 가능한 흐름 완성.</div>
+        <div style="margin-top:12px; padding:8px 10px; background:var(--bg-subtle); border-radius:4px; font-size:11px; color:var(--text-secondary);">양산된 템플릿 수가 곧 성과 지표</div>
+      </div>
+
+    </div>
+
+    <!-- 테스트할 템플릿 유형 -->
+    <div style="border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:24px;">
+      <div style="padding:16px 20px; background:var(--bg-subtle); border-bottom:1px solid var(--border);">
+        <div style="font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-secondary);">파일럿 대상 템플릿 유형 — 우선순위순</div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border);">
+        <div style="background:var(--bg); padding:20px 20px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span style="font-size:11px; font-weight:700; background:var(--blue-dim); color:var(--blue); padding:2px 7px; border-radius:4px; letter-spacing:0.04em;">1순위</span>
+            <span style="font-size:13px; font-weight:700; color:var(--text);">행사·이벤트 템플릿</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.65;">반복 빈도 가장 높음. 행사명·날짜·장소·색상만 바뀌고 구조는 동일. AI 양산 효과가 즉시 체감됨.</div>
+        </div>
+        <div style="background:var(--bg); padding:20px 20px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span style="font-size:11px; font-weight:700; background:var(--bg-pressed); color:var(--text-secondary); padding:2px 7px; border-radius:4px; letter-spacing:0.04em;">2순위</span>
+            <span style="font-size:13px; font-weight:700; color:var(--text);">마케팅 콘텐츠 템플릿</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.65;">채널별 포맷이 다르지만 브랜드 기준은 동일. MD로 채널 변수를 정의하면 AI가 채널별 변형을 생성.</div>
+        </div>
+        <div style="background:var(--bg); padding:20px 20px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span style="font-size:11px; font-weight:700; background:var(--bg-pressed); color:var(--text-secondary); padding:2px 7px; border-radius:4px; letter-spacing:0.04em;">3순위</span>
+            <span style="font-size:13px; font-weight:700; color:var(--text);">굿즈 스펙 템플릿</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-secondary); line-height:1.65;">소재·사이즈·인쇄 방식이 변수. MD 스펙으로 정의하면 신규 굿즈 스펙 문서를 AI가 자동 생성.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 성과 지표 -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px;">
+      <div style="border:1px solid var(--border); border-radius:8px; padding:22px 20px;">
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:10px;">측정 지표 1</div>
+        <div style="font-size:28px; font-weight:700; color:var(--text); letter-spacing:-0.03em; margin-bottom:6px;">템플릿 수<span style="font-size:16px; color:var(--blue);">↑</span></div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">3개월 안에 AI 양산으로 만들어진 템플릿 수. 사람이 만든 것과 나란히 비교.</div>
+      </div>
+      <div style="border:1px solid var(--border); border-radius:8px; padding:22px 20px;">
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:10px;">측정 지표 2</div>
+        <div style="font-size:28px; font-weight:700; color:var(--text); letter-spacing:-0.03em; margin-bottom:6px;">제작 시간<span style="font-size:16px; color:var(--blue);">↓</span></div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">템플릿 하나 만드는 데 걸리는 시간. MD 스펙 작성 시간 포함해도 총량이 줄어야 한다.</div>
+      </div>
+      <div style="border:1px solid var(--border); border-radius:8px; padding:22px 20px;">
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-tertiary); margin-bottom:10px;">측정 지표 3</div>
+        <div style="font-size:28px; font-weight:700; color:var(--text); letter-spacing:-0.03em; margin-bottom:6px;">재사용률<span style="font-size:16px; color:var(--blue);">↑</span></div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">아카이빙 사이트에서 실제로 다운로드·활용되는 템플릿 비율. 만든 것이 쓰여야 성과.</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>이 파일럿의 의미.</strong> 템플릿 양산은 단순 자동화가 아니다.
+      <strong>BXD가 기준을 만들고 AI가 그 기준 안에서 무한히 변형할 수 있는 구조</strong>를 만드는 것.
+      MD 스펙이 잘 정의될수록 AI가 만들어낼 수 있는 범위가 넓어진다.
+    </div>
+  </section>
+
   <footer>
     <p>NAVER Cloud BXD · Brand Experience Design · 2026</p>
     <p>navercloudbxd.figma.site</p>
