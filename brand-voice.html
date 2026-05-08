@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Voice Foundation</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #F07240;
+    --orange-dim: rgba(240,114,64,0.10);
+    --orange-light: #FEF0EB;
+    --green: #03C75A;
+    --green-dim: rgba(3,199,90,0.10);
+    --red: #FF4D4D;
+    --red-dim: rgba(255,77,77,0.08);
+    --text: #1A1A1A;
+    --text-sec: #666;
+    --text-ter: #AAA;
+    --border: rgba(0,0,0,0.09);
+    --bg: #fff;
+    --bg-subtle: #FAFAFA;
+    --dark: #1A1A1A;
+  }
+  body { font-family: 'Pretendard', sans-serif; background: #F5F0EB; color: var(--text); -webkit-font-smoothing: antialiased; }
+  .page { max-width: 1000px; margin: 0 auto; padding: 56px 48px 80px; }
+
+  /* HEADER */
+  .header { background: var(--dark); border-radius: 16px; padding: 52px 56px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(240,114,64,0.15) 0%, transparent 70%); pointer-events: none; }
+  .header-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
+  .header-title { font-size: 44px; font-weight: 700; color: #fff; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+  .header-title em { font-style: normal; color: var(--orange); }
+  .header-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.75; max-width: 580px; }
+
+  /* BLOCK */
+  .block { background: var(--bg); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .block-head { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .block-num { width: 26px; height: 26px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .block-title { font-size: 15px; font-weight: 700; }
+  .block-sub { font-size: 12px; color: var(--text-sec); margin-left: auto; }
+  .block-body { padding: 28px 28px; }
+
+  /* WHY */
+  .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .why-card { border-radius: 8px; padding: 20px 18px; border: 1px solid var(--border); }
+  .why-num { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+  .why-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
+  .why-desc { font-size: 12px; color: var(--text-sec); line-height: 1.65; }
+
+  /* DESIGN SECTIONS */
+  .design-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .design-item { display: grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid var(--border); }
+  .design-item:last-child { border-bottom: none; }
+  .design-left { padding: 24px 20px; border-right: 1px solid var(--border); background: var(--bg-subtle); }
+  .design-left-num { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+  .design-left-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+  .design-left-tag { font-size: 11px; color: var(--text-sec); }
+  .design-right { padding: 24px 24px; }
+  .design-desc { font-size: 13px; color: var(--text-sec); line-height: 1.7; margin-bottom: 14px; }
+  .design-items { display: flex; flex-direction: column; gap: 8px; }
+  .design-q { display: grid; grid-template-columns: 16px 1fr; gap: 8px; align-items: start; }
+  .design-q-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--orange); margin-top: 6px; justify-self: center; }
+  .design-q-text { font-size: 12px; color: var(--text); line-height: 1.55; }
+  .design-q-hint { font-size: 11px; color: var(--text-sec); margin-top: 2px; font-style: italic; }
+
+  /* BEFORE AFTER */
+  .ba-wrap { display: grid; grid-template-columns: 1fr 32px 1fr; gap: 0; align-items: stretch; margin-bottom: 12px; }
+  .ba-col { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .ba-head { padding: 9px 14px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .ba-head.before { background: #F0F0F0; color: var(--text-ter); }
+  .ba-head.after  { background: var(--orange); color: #fff; }
+  .ba-body { padding: 14px 14px; display: flex; flex-direction: column; gap: 8px; }
+  .ba-item { font-size: 12px; line-height: 1.6; padding: 8px 10px; border-radius: 5px; }
+  .ba-item.dim  { background: #F5F5F5; color: var(--text-sec); }
+  .ba-item.good { background: var(--orange-dim); color: var(--text); }
+  .ba-arr { display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: var(--orange); }
+
+  /* CODE */
+  .code { background: var(--dark); border-radius: 8px; padding: 18px 20px; font-family: 'Menlo','Monaco',monospace; font-size: 11px; line-height: 1.9; margin-bottom: 12px; }
+  .c-dim  { color: rgba(255,255,255,0.28); }
+  .c-key  { color: #79C0FF; }
+  .c-val  { color: #A8FF78; }
+  .c-str  { color: #F8CC69; }
+  .c-acc  { color: #FFA657; }
+  .c-bad  { color: #FF7B72; }
+
+  /* SPECTRUM */
+  .spectrum { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; align-items: center; margin-bottom: 10px; }
+  .sp-left  { font-size: 12px; font-weight: 700; color: var(--text); text-align: right; padding-right: 12px; }
+  .sp-right { font-size: 12px; font-weight: 700; color: var(--text); padding-left: 12px; }
+  .sp-bar-wrap { position: relative; height: 6px; background: var(--border); border-radius: 3px; }
+  .sp-bar { position: absolute; left: 0; top: 0; height: 6px; border-radius: 3px; background: var(--orange); }
+  .sp-dot { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 14px; height: 14px; border-radius: 50%; background: var(--orange); border: 2px solid #fff; box-shadow: 0 0 0 1px var(--orange); }
+  .sp-row { display: flex; flex-direction: column; gap: 14px; }
+  .sp-item { display: grid; grid-template-columns: 100px 1fr 100px; gap: 16px; align-items: center; }
+  .sp-item-left  { font-size: 12px; color: var(--text-sec); text-align: right; }
+  .sp-item-right { font-size: 12px; color: var(--text-sec); }
+  .sp-track { position: relative; height: 4px; background: var(--border); border-radius: 2px; }
+  .sp-marker { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 12px; height: 12px; border-radius: 50%; background: var(--orange); border: 2px solid #fff; box-shadow: 0 0 0 1px var(--orange); }
+
+  /* NOTE */
+  .note { background: var(--bg); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: 13px; color: var(--text); line-height: 1.7; margin-top: 12px; }
+  .note strong { font-weight: 700; }
+
+  footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+  footer p { font-size: 12px; color: var(--text-ter); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">BXD AI Native · Foundation</div>
+    <h1 class="header-title">Brand Voice를<br><em>Foundation에 넣는다</em></h1>
+    <p class="header-desc">
+      컬러·로고만 있는 Foundation은 AI에게 "어떻게 생겼는지"만 알려준다.<br>
+      Brand Voice가 추가되면 AI가 "왜 이렇게 만드는지"를 이해하고 판단할 수 있다.
+    </p>
+  </div>
+
+  <!-- BLOCK 1: 왜 필요한가 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-num">1</div>
+      <div class="block-title">왜 Brand Voice가 Foundation에 있어야 하는가</div>
+      <div class="block-sub">기획뿐 아니라 모든 AI 작업에 영향을 준다</div>
+    </div>
+    <div class="block-body">
+      <div class="why-grid" style="margin-bottom:20px;">
+        <div class="why-card">
+          <div class="why-num">영향 1</div>
+          <div class="why-title">카피·텍스트 생성의 기준</div>
+          <div class="why-desc">AI가 SNS 포스팅, 행사 소개문, 제품 설명을 쓸 때 — Brand Voice가 없으면 그냥 그럴듯한 문장을 만든다. 있으면 BXD의 언어로 만든다.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-num">영향 2</div>
+          <div class="why-title">비주얼 방향 판단의 근거</div>
+          <div class="why-desc">시안을 만들 때 "화려함보다 명확함"이라는 한 줄이 있으면 AI가 방향을 잡는 기준이 생긴다. 없으면 매번 설명해야 한다.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-num">영향 3</div>
+          <div class="why-title">검수 AI의 판단 기준</div>
+          <div class="why-desc">나중에 검수 AI를 붙이면 컬러·서체뿐 아니라 "이 카피가 우리 톤에 맞는가"도 판단할 수 있다. Brand Voice가 Foundation에 있어야 가능한 일.</div>
+        </div>
+      </div>
+
+      <!-- Before / After -->
+      <div class="ba-wrap">
+        <div class="ba-col">
+          <div class="ba-head before">Brand Voice 없을 때</div>
+          <div class="ba-body">
+            <div class="ba-item dim">"네이버클라우드 행사 소개문 써줘"<br>→ 일반적인 IT 행사 문투. 어디서나 볼 수 있는 문장.</div>
+            <div class="ba-item dim">"배너 시안 만들어줘"<br>→ 트렌디하고 화려한 디자인. BXD 기준인지 알 수 없음.</div>
+            <div class="ba-item dim">매 작업마다 "우리는 B2B야, 신뢰 중심이야" 반복 설명.</div>
+          </div>
+        </div>
+        <div class="ba-arr">→</div>
+        <div class="ba-col">
+          <div class="ba-head after">Brand Voice 있을 때</div>
+          <div class="ba-body">
+            <div class="ba-item good">"Foundation 파일 참고해서 행사 소개문 써줘"<br>→ B2B 전문가 대상, 신뢰·기술력 기반 문투 자동 적용.</div>
+            <div class="ba-item good">"Foundation 기준으로 배너 만들어줘"<br>→ 명확함 우선, 과장 없이, BXD 톤의 비주얼.</div>
+            <div class="ba-item good">설명 없이도 BXD 언어로 작동. 누가 써도 일관성 유지.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 2: 설계해야 할 항목 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-num">2</div>
+      <div class="block-title">Brand Voice — 설계해야 할 항목</div>
+      <div class="block-sub">AI가 판단 기준으로 쓸 수 있는 형태로 써야 한다</div>
+    </div>
+    <div class="block-body">
+      <div class="design-list">
+
+        <div class="design-item">
+          <div class="design-left">
+            <div class="design-left-num">항목 01</div>
+            <div class="design-left-title">브랜드 컨텍스트</div>
+            <div class="design-left-tag">Who we are</div>
+          </div>
+          <div class="design-right">
+            <div class="design-desc">AI에게 우리가 누구인지 알려주는 전제. 단순 소개가 아니라 AI가 판단 기준으로 쓸 수 있는 문장으로.</div>
+            <div class="design-items">
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">우리는 어떤 회사인가 — 산업·규모·포지션</div>
+                  <div class="design-q-hint">예: "국내 1위 퍼블릭 클라우드 기업. B2B 중심. 기업·공공·스타트업 대상."</div>
+                </div>
+              </div>
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">우리가 해결하는 문제는 무엇인가</div>
+                  <div class="design-q-hint">예: "기업의 디지털 전환과 AI 도입. 기술 복잡성을 낮추고 신뢰할 수 있는 인프라를 제공."</div>
+                </div>
+              </div>
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">우리의 주 대상은 누구인가</div>
+                  <div class="design-q-hint">예: "CTO, 개발자, IT 의사결정자. 기술적 판단 능력을 가진 전문가."</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="design-item">
+          <div class="design-left">
+            <div class="design-left-num">항목 02</div>
+            <div class="design-left-title">브랜드 가치 & 성격</div>
+            <div class="design-left-tag">What we stand for</div>
+          </div>
+          <div class="design-right">
+            <div class="design-desc">우리가 중요하게 여기는 것. 추상적인 가치가 아니라 AI가 실제 표현에 적용할 수 있는 구체적인 문장으로.</div>
+            <div class="design-items">
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">핵심 가치 3–5개 — 그리고 각각이 표현에서 무엇을 의미하는지</div>
+                  <div class="design-q-hint">예: "신뢰 → 과장 없이 사실 기반. 수치와 사례로 말한다. '최고'보다 '검증된'."</div>
+                </div>
+              </div>
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">우리 브랜드의 성격을 사람으로 표현하면</div>
+                  <div class="design-q-hint">예: "믿을 수 있는 기술 전문가. 허세 없이 실력으로 말하는 사람."</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="design-item">
+          <div class="design-left">
+            <div class="design-left-num">항목 03</div>
+            <div class="design-left-title">톤 스펙트럼</div>
+            <div class="design-left-tag">How we sound</div>
+          </div>
+          <div class="design-right">
+            <div class="design-desc">우리 브랜드의 말투를 스펙트럼으로 정의한다. 어느 쪽에 가까운지 위치를 정해두면 AI가 표현 수위를 조절할 수 있다.</div>
+            <div class="sp-row" style="margin-bottom:14px;">
+              <div class="sp-item">
+                <div class="sp-item-left">격식체</div>
+                <div class="sp-track"><div class="sp-marker" style="left:35%;"></div></div>
+                <div class="sp-item-right">친근체</div>
+              </div>
+              <div class="sp-item">
+                <div class="sp-item-left">기술적</div>
+                <div class="sp-track"><div class="sp-marker" style="left:60%;"></div></div>
+                <div class="sp-item-right">일반적</div>
+              </div>
+              <div class="sp-item">
+                <div class="sp-item-left">간결</div>
+                <div class="sp-track"><div class="sp-marker" style="left:25%;"></div></div>
+                <div class="sp-item-right">상세</div>
+              </div>
+              <div class="sp-item">
+                <div class="sp-item-left">절제</div>
+                <div class="sp-track"><div class="sp-marker" style="left:20%;"></div></div>
+                <div class="sp-item-right">감성적</div>
+              </div>
+            </div>
+            <div class="note" style="margin-top:0;">위 스펙트럼은 예시 위치. <strong>BXD가 실제 위치를 토론해서 확정해야 한다.</strong> 위치를 정하는 과정 자체가 브랜드 언어를 합의하는 작업.</div>
+          </div>
+        </div>
+
+        <div class="design-item">
+          <div class="design-left">
+            <div class="design-left-num">항목 04</div>
+            <div class="design-left-title">Do / Don't</div>
+            <div class="design-left-tag">표현 기준</div>
+          </div>
+          <div class="design-right">
+            <div class="design-desc">AI가 가장 직접적으로 쓰는 부분. 해도 되는 표현과 하면 안 되는 표현을 구체적인 예시로.</div>
+            <div class="design-items">
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">쓰는 표현 — 구체적 수치, 사실 기반, 기술 용어 적절히</div>
+                  <div class="design-q-hint">예: "99.9% 가용성 보장" O / "압도적인 안정성" X</div>
+                </div>
+              </div>
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">안 쓰는 표현 — 과장 수식어, 감탄사, 불필요한 강조</div>
+                  <div class="design-q-hint">예: "최고의", "혁신적인", "놀라운" — 이런 단어들은 B2B 전문가에게 신뢰를 깎는다.</div>
+                </div>
+              </div>
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">채널별 톤 조정 기준</div>
+                  <div class="design-q-hint">예: 기술 블로그는 전문용어 허용 / SNS는 한 문장 더 쉽게 / 행사 소개는 약간 더 따뜻하게.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="design-item">
+          <div class="design-left">
+            <div class="design-left-num">항목 05</div>
+            <div class="design-left-title">비주얼 무드 언어</div>
+            <div class="design-left-tag">시각 표현 기준</div>
+          </div>
+          <div class="design-right">
+            <div class="design-desc">텍스트 톤뿐 아니라 비주얼 방향도 언어로 정의한다. 시안을 만들 때 AI가 방향 기준으로 참조한다.</div>
+            <div class="design-items">
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">비주얼이 주는 첫인상 — 3개 형용사</div>
+                  <div class="design-q-hint">예: "명확한, 신뢰할 수 있는, 앞서가는"</div>
+                </div>
+              </div>
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">비주얼에서 피해야 할 것</div>
+                  <div class="design-q-hint">예: "과도한 그라디언트, 유행 중심 디자인, 소비자 브랜드처럼 보이는 것"</div>
+                </div>
+              </div>
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">참고 레퍼런스 — 우리와 결이 비슷한 브랜드</div>
+                  <div class="design-q-hint">AI가 방향을 잡을 때 레퍼런스 이름만 있어도 큰 도움이 됨.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="design-item">
+          <div class="design-left">
+            <div class="design-left-num">항목 06</div>
+            <div class="design-left-title">System Prompt 형태</div>
+            <div class="design-left-tag">AI 주입용</div>
+          </div>
+          <div class="design-right">
+            <div class="design-desc">위 항목들을 AI가 바로 읽고 적용할 수 있는 System Prompt 형태로 변환한다. Foundation 파일에 이 버전이 포함되어야 실제로 작동한다.</div>
+            <div class="design-items">
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">짧은 버전 — 프롬프트 앞에 붙이는 1–3문장</div>
+                  <div class="design-q-hint">빠른 작업에서 붙여쓰는 용도. "당신은 NAVER Cloud BXD의 브랜드 전문가입니다. B2B 클라우드 기업, 신뢰·기술력 중심, 전문가 대상으로 커뮤니케이션합니다."</div>
+                </div>
+              </div>
+              <div class="design-q">
+                <div class="design-q-dot"></div>
+                <div>
+                  <div class="design-q-text">긴 버전 — Foundation 파일 첨부용 전체 컨텍스트</div>
+                  <div class="design-q-hint">위 항목 01–05를 모두 포함한 구조화된 텍스트. 중요한 작업에 파일째 첨부.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 3: JSON 구조 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-num">3</div>
+      <div class="block-title">Foundation 파일 안에서 어떻게 생겼는가</div>
+      <div class="block-sub">컬러·로고 토큰과 같은 파일 안에</div>
+    </div>
+    <div class="block-body">
+      <div class="code">
+<span class="c-dim">// bxd-foundation.json</span><br>
+<span class="c-dim">// 컬러·로고와 같은 파일 안에 voice 섹션으로 들어간다</span><br>
+<br>
+<span class="c-key">{</span><br>
+&nbsp;&nbsp;<span class="c-str">"brand"</span><span class="c-key">:</span> <span class="c-key">{</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"color"</span><span class="c-key">:</span> <span class="c-key">{</span> <span class="c-dim">... 컬러 토큰 ...</span> <span class="c-key">}</span><span class="c-key">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"logo"</span><span class="c-key">:</span>  <span class="c-key">{</span> <span class="c-dim">... 로고 URL ...</span> <span class="c-key">}</span><span class="c-key">,</span><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-acc">"voice"</span><span class="c-key">:</span> <span class="c-key">{</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"context"</span><span class="c-key">:</span> <span class="c-val">"국내 1위 퍼블릭 클라우드 기업. B2B 중심. 기업·공공·스타트업 대상."</span><span class="c-key">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"audience"</span><span class="c-key">:</span> <span class="c-val">"CTO, 개발자, IT 의사결정자. 기술적 판단 능력을 가진 전문가."</span><span class="c-key">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"values"</span><span class="c-key">:</span> <span class="c-key">[</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-val">"신뢰: 과장 없이 사실 기반. 수치와 사례로 말한다."</span><span class="c-key">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-val">"기술력: 트렌드보다 검증된 기술. 실력으로 말한다."</span><span class="c-key">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-val">"명확함: 복잡한 것을 쉽게. 화려함보다 이해하기 쉽게."</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">]</span><span class="c-key">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"tone"</span><span class="c-key">:</span> <span class="c-key">{</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"do"</span><span class="c-key">:</span>   <span class="c-key">[</span><span class="c-val">"구체적 수치"</span><span class="c-key">,</span> <span class="c-val">"사실 기반"</span><span class="c-key">,</span> <span class="c-val">"기술 용어 적절히"</span><span class="c-key">]</span><span class="c-key">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"dont"</span><span class="c-key">:</span> <span class="c-key">[</span><span class="c-bad">"최고의"</span><span class="c-key">,</span> <span class="c-bad">"혁신적인"</span><span class="c-key">,</span> <span class="c-bad">"놀라운"</span><span class="c-key">,</span> <span class="c-bad">"압도적인"</span><span class="c-key">]</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">}</span><span class="c-key">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"visual-mood"</span><span class="c-key">:</span> <span class="c-key">[</span><span class="c-val">"명확한"</span><span class="c-key">,</span> <span class="c-val">"신뢰할 수 있는"</span><span class="c-key">,</span> <span class="c-val">"앞서가는"</span><span class="c-key">]</span><span class="c-key">,</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"system-prompt-short"</span><span class="c-key">:</span> <span class="c-val">"당신은 NAVER Cloud BXD 브랜드 전문가입니다. B2B 클라우드 기업, 신뢰·기술력 중심, IT 전문가 대상으로 커뮤니케이션합니다. 과장 없이 사실 기반으로, 명확하게 표현합니다."</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">}</span><br>
+&nbsp;&nbsp;<span class="c-key">}</span><br>
+<span class="c-key">}</span>
+      </div>
+
+      <div class="note">
+        <strong>위 내용은 예시.</strong> 실제 값은 BXD 팀이 직접 작성해야 한다.
+        JSON 구조만 맞추면 되고 — 내용을 채우는 작업이 곧 <strong>브랜드 보이스를 합의하는 과정</strong>이다.
+        이 합의 자체가 AI 작업보다 더 중요한 결과물일 수 있다.
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 4: 작업 순서 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-num">4</div>
+      <div class="block-title">어떻게 만드는가 — 작업 순서</div>
+      <div class="block-sub">워크숍 → 초안 → 검증 → Foundation 통합</div>
+    </div>
+    <div class="block-body">
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:12px;">
+        <div style="background:var(--bg); padding:20px 18px;">
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); margin-bottom:8px;">Step 1</div>
+          <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.35;">BXD 팀 워크숍</div>
+          <div style="font-size:12px; color:var(--text-sec); line-height:1.65;">항목 01–05의 질문들을 팀이 함께 답한다. 합의되지 않은 부분을 드러내는 것 자체가 목적.</div>
+        </div>
+        <div style="background:var(--bg); padding:20px 18px; border-left:1px solid var(--border);">
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); margin-bottom:8px;">Step 2</div>
+          <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.35;">초안 작성</div>
+          <div style="font-size:12px; color:var(--text-sec); line-height:1.65;">워크숍 결과를 바탕으로 각 항목 초안 작성. AI 도구로 초안 생성 후 BXD가 다듬는 방식도 유효.</div>
+        </div>
+        <div style="background:var(--bg); padding:20px 18px; border-left:1px solid var(--border);">
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); margin-bottom:8px;">Step 3</div>
+          <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.35;">실제 작업에 테스트</div>
+          <div style="font-size:12px; color:var(--text-sec); line-height:1.65;">초안을 AI에 주입하고 실제 카피·시안을 만들어본다. "이게 우리 말투 맞나?"를 팀이 함께 판단.</div>
+        </div>
+        <div style="background:var(--bg); padding:20px 18px; border-left:1px solid var(--border);">
+          <div style="font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--orange); margin-bottom:8px;">Step 4</div>
+          <div style="font-size:13px; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.35;">Foundation 통합</div>
+          <div style="font-size:12px; color:var(--text-sec); line-height:1.65;">검증된 내용을 JSON 형태로 정리해 Foundation 파일에 통합. GitHub 배포 후 모든 AI 작업에 적용.</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>브랜드 보이스를 만드는 과정 자체가 성과다.</strong>
+        AI를 위한 문서를 만들면서 팀이 "우리가 어떤 브랜드인가"를 합의하게 된다.
+        이 합의는 AI 작업뿐 아니라 <strong>모든 브랜드 판단의 기준</strong>이 된다.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>NAVER Cloud BXD · Brand Experience Design · 2026</p>
+    <p>navercloudbxd.figma.site</p>
+  </footer>
+
+</div>
+</body>
+</html>
