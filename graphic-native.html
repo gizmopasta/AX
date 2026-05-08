@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphic AI Native</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #F07240;
+    --orange-dim: rgba(240,114,64,0.10);
+    --orange-light: #FEF0EB;
+    --green: #03C75A;
+    --green-dim: rgba(3,199,90,0.10);
+    --red: #FF4D4D;
+    --red-dim: rgba(255,77,77,0.08);
+    --text: #1A1A1A;
+    --text-sec: #666;
+    --text-ter: #AAA;
+    --border: rgba(0,0,0,0.09);
+    --bg: #fff;
+    --bg-subtle: #FAFAFA;
+    --dark: #1A1A1A;
+  }
+  body { font-family: 'Pretendard', sans-serif; background: #F5F0EB; color: var(--text); -webkit-font-smoothing: antialiased; }
+  .page { max-width: 1000px; margin: 0 auto; padding: 56px 48px 80px; }
+
+  /* HEADER */
+  .header { background: var(--orange); border-radius: 16px; padding: 52px 56px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; bottom: -80px; right: -80px; width: 280px; height: 280px; background: rgba(255,255,255,0.07); border-radius: 50%; pointer-events: none; }
+  .header-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 14px; }
+  .header-title { font-size: 44px; font-weight: 700; color: #fff; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+  .header-desc { font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.75; max-width: 560px; }
+
+  /* PRINCIPLE STRIP */
+  .principle-strip {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 1px; background: rgba(240,114,64,0.2);
+    border: 1px solid rgba(240,114,64,0.2);
+    border-radius: 12px; overflow: hidden; margin-bottom: 20px;
+  }
+  .pr-cell { background: var(--bg); padding: 18px 18px; }
+  .pr-num { font-size: 10px; font-weight: 800; color: var(--orange); letter-spacing: 0.06em; margin-bottom: 6px; }
+  .pr-title { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.35; margin-bottom: 4px; }
+  .pr-desc { font-size: 11px; color: var(--text-sec); line-height: 1.6; }
+
+  /* BLOCK */
+  .block { background: var(--bg); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .block-head { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .block-num { width: 26px; height: 26px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .block-title { font-size: 15px; font-weight: 700; }
+  .block-sub { font-size: 12px; color: var(--text-sec); margin-left: auto; }
+  .block-body { padding: 28px 28px; }
+
+  /* CAN / CANNOT GRID */
+  .can-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .can-card { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .can-head { padding: 12px 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .can-head.yes { background: var(--green-dim); color: var(--green); }
+  .can-head.no  { background: var(--red-dim);   color: var(--red);   }
+  .can-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 0; }
+  .can-item { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: start; padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .can-item:last-child { border-bottom: none; }
+  .can-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; justify-self: center; flex-shrink: 0; }
+  .can-dot.yes { background: var(--green); }
+  .can-dot.no  { background: var(--red); }
+  .can-text { font-size: 12px; color: var(--text); line-height: 1.55; }
+  .can-sub  { font-size: 11px; color: var(--text-sec); margin-top: 2px; }
+
+  /* CANNOT — 대안 처리 */
+  .alt-box { background: var(--orange-light); border-radius: 8px; padding: 14px 18px; margin-top: 12px; }
+  .alt-label { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+  .alt-text { font-size: 12px; color: var(--text); line-height: 1.7; }
+
+  /* CONTENT TYPE TABLE */
+  .ct-table { width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; table-layout: fixed; }
+  .ct-table th { padding: 10px 16px; text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-sec); background: var(--bg-subtle); border-bottom: 1px solid var(--border); }
+  .ct-table td { padding: 13px 16px; vertical-align: top; border-bottom: 1px solid var(--border); word-break: keep-all; font-size: 12px; }
+  .ct-table tr:last-child td { border-bottom: none; }
+  .ct-name { font-weight: 700; color: var(--text); }
+  .ct-eg   { color: var(--text-sec); line-height: 1.55; }
+  .ct-rule { font-family: monospace; font-size: 11px; color: var(--text-sec); }
+  .ct-fmt  { font-size: 11px; }
+  .badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.04em; }
+  .badge-can  { background: var(--green-dim); color: var(--green); }
+  .badge-alt  { background: var(--orange-dim); color: var(--orange); }
+  .badge-no   { background: var(--red-dim);    color: var(--red);   }
+
+  /* NAMING RULE */
+  .naming-box { background: var(--dark); border-radius: 8px; padding: 20px 22px; font-family: 'Menlo','Monaco',monospace; font-size: 12px; line-height: 2; margin-bottom: 12px; }
+  .c-dim  { color: rgba(255,255,255,0.28); }
+  .c-key  { color: #79C0FF; }
+  .c-val  { color: #A8FF78; }
+  .c-str  { color: #F8CC69; }
+  .c-acc  { color: #FFA657; }
+  .c-url  { color: #A8FF78; text-decoration: underline; text-decoration-color: rgba(168,255,120,0.3); }
+
+  /* TAG CLOUD */
+  .tag-section { margin-bottom: 16px; }
+  .tag-group { margin-bottom: 14px; }
+  .tag-group-label { font-size: 11px; font-weight: 700; color: var(--text-sec); margin-bottom: 8px; letter-spacing: 0.04em; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { display: inline-block; font-size: 12px; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); color: var(--text); background: var(--bg-subtle); }
+  .tag.primary { background: var(--orange-dim); border-color: rgba(240,114,64,0.25); color: var(--orange); font-weight: 600; }
+
+  /* PILOT */
+  .pilot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pilot-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .pilot-head { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .pilot-badge { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+  .pilot-title { font-size: 13px; font-weight: 700; }
+  .pilot-body { padding: 16px 16px; }
+  .pilot-meta { font-size: 11px; color: var(--text-sec); margin-bottom: 10px; }
+  .pilot-items { display: flex; flex-direction: column; gap: 6px; }
+  .pilot-item { font-size: 12px; color: var(--text-sec); padding-left: 12px; position: relative; line-height: 1.5; }
+  .pilot-item::before { content: ''; position: absolute; left: 0; top: 7px; width: 4px; height: 4px; border-radius: 50%; background: var(--orange); }
+
+  /* NOTE */
+  .note { background: var(--bg); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: 13px; color: var(--text); line-height: 1.7; margin-top: 12px; }
+  .note strong { font-weight: 700; }
+
+  footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+  footer p { font-size: 12px; color: var(--text-ter); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">BXD AI Native · 그래픽</div>
+    <h1 class="header-title">Graphic을<br>AI 네이티브화한다</h1>
+    <p class="header-desc">
+      되는 것과 안 되는 것이 있다. 전부 다 하려 하지 않는다.<br>
+      대표 케이스를 먼저 선행하고, 유형별로 구조화하고, 규칙 하에 명명하고 태그화한다.
+    </p>
+  </div>
+
+  <!-- 진행 원칙 4개 -->
+  <div class="principle-strip">
+    <div class="pr-cell">
+      <div class="pr-num">원칙 01</div>
+      <div class="pr-title">양이 아니라<br>대표 케이스 선행</div>
+      <div class="pr-desc">전체를 한번에 정리하지 않는다. 대표 이미지·영상 1개씩 먼저. 그게 나머지의 기준이 된다.</div>
+    </div>
+    <div class="pr-cell">
+      <div class="pr-num">원칙 02</div>
+      <div class="pr-title">유형별 구조화<br>규칙 하에 명명</div>
+      <div class="pr-desc">콘텐츠가 무엇인지 명명하고 분류한다. 이름이 없으면 찾을 수 없고, AI도 분류할 수 없다.</div>
+    </div>
+    <div class="pr-cell">
+      <div class="pr-num">원칙 03</div>
+      <div class="pr-title">가능한 것은<br>코드로 변환</div>
+      <div class="pr-desc">SVG·JSON으로 변환 가능한 것은 변환한다. 안 되는 것은 색상·레이아웃을 텍스트 개요로.</div>
+    </div>
+    <div class="pr-cell">
+      <div class="pr-num">원칙 04</div>
+      <div class="pr-title">파일 아닌<br>링크로 호출</div>
+      <div class="pr-desc">GitHub에 올리고 URL을 배포한다. 파일을 주고받는 게 아니라 링크 하나가 항상 최신을 가리킨다.</div>
+    </div>
+  </div>
+
+  <!-- BLOCK 1: 되는 것 / 안 되는 것 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-num">1</div>
+      <div class="block-title">되는 것 vs 안 되는 것 — 먼저 구분한다</div>
+      <div class="block-sub">모든 그래픽을 코드화할 수는 없다</div>
+    </div>
+    <div class="block-body">
+      <div class="can-grid">
+
+        <div class="can-card">
+          <div class="can-head yes">✓ 코드화 가능 — SVG / JSON으로 변환</div>
+          <div class="can-body">
+            <div class="can-item">
+              <div class="can-dot yes"></div>
+              <div>
+                <div class="can-text">로고 · 심볼 · 아이콘</div>
+                <div class="can-sub">벡터 기반. Figma에서 SVG로 직접 내보내기 가능. 코드로 읽히고 AI가 직접 참조.</div>
+              </div>
+            </div>
+            <div class="can-item">
+              <div class="can-dot yes"></div>
+              <div>
+                <div class="can-text">단순 기하 키비주얼 · 패턴</div>
+                <div class="can-sub">도형·선·그라디언트로 구성된 키비주얼. 구조가 단순하면 SVG로 변환 가능. 색상·레이아웃 정보가 코드 안에 보존됨.</div>
+              </div>
+            </div>
+            <div class="can-item">
+              <div class="can-dot yes"></div>
+              <div>
+                <div class="can-text">컬러 팔레트 · 타이포 스펙</div>
+                <div class="can-sub">수치로 정의 가능한 것들. JSON 토큰으로 변환하면 AI가 값으로 읽고 적용.</div>
+              </div>
+            </div>
+            <div class="can-item">
+              <div class="can-dot yes"></div>
+              <div>
+                <div class="can-text">레이아웃 그리드 · 여백 규칙</div>
+                <div class="can-sub">수치와 비율로 정의 가능. MD나 JSON으로 구조화하면 AI가 레이아웃 기준으로 참조.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="can-card">
+          <div class="can-head no">✕ 코드화 불가 — 대안 처리 필요</div>
+          <div class="can-body">
+            <div class="can-item">
+              <div class="can-dot no"></div>
+              <div>
+                <div class="can-text">사진 · 인물 이미지 · 행사 현장</div>
+                <div class="can-sub">래스터 이미지. SVG 변환 불가. 코드로 구조를 표현할 수 없음.</div>
+              </div>
+            </div>
+            <div class="can-item">
+              <div class="can-dot no"></div>
+              <div>
+                <div class="can-text">영상 · 모션 그래픽</div>
+                <div class="can-sub">파일 자체를 코드화할 수 없음. 영상 URL + 메타데이터로 관리.</div>
+              </div>
+            </div>
+            <div class="can-item">
+              <div class="can-dot no"></div>
+              <div>
+                <div class="can-text">복잡한 일러스트 · 합성 이미지</div>
+                <div class="can-sub">레이어·효과가 복잡해 SVG 변환 시 깨지거나 의미 없는 코드가 됨.</div>
+              </div>
+            </div>
+            <div class="can-item">
+              <div class="can-dot no"></div>
+              <div>
+                <div class="can-text">3D 렌더 · 특수 효과 그래픽</div>
+                <div class="can-sub">벡터로 표현 불가. 이미지 파일로만 존재 가능.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="alt-box">
+        <div class="alt-label">코드화 안 되는 것들의 대안 처리</div>
+        <div class="alt-text">
+          변환이 안 되는 그래픽은 <strong>색상·레이아웃·무드를 텍스트 개요로 작성</strong>하고 분류한다.
+          "이 이미지는 BXD 그린 계열, 미니멀, 테크 톤, 행사용" — 이렇게 태그와 설명을 붙이면
+          AI가 이미지 파일은 못 읽어도 <strong>어떤 맥락의 자산인지는 이해할 수 있다.</strong>
+          파일 URL + 메타데이터 MD가 이 그룹의 아카이빙 방식.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 2: 콘텐츠 유형 명명 & 분류 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-num">2</div>
+      <div class="block-title">콘텐츠 유형 명명 & 분류</div>
+      <div class="block-sub">대표 영상·이미지를 정하는 게 먼저</div>
+    </div>
+    <div class="block-body">
+
+      <table class="ct-table" style="margin-bottom:20px;">
+        <thead>
+          <tr>
+            <th style="width:130px;">유형명</th>
+            <th style="width:180px;">정의 & 대표 예시</th>
+            <th>명명 규칙</th>
+            <th style="width:80px;">변환</th>
+            <th style="width:90px;">포맷</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ct-name">Brand Film</td>
+            <td class="ct-eg">브랜드 전체를 대표하는 영상. 연 1회 수준. 가장 공식적인 영상 자산.</td>
+            <td class="ct-rule">brand-film-YYYY.mp4</td>
+            <td><span class="badge badge-alt">URL+MD</span></td>
+            <td class="ct-fmt">mp4 + MD</td>
+          </tr>
+          <tr>
+            <td class="ct-name">Key Visual</td>
+            <td class="ct-eg">캠페인·시즌 대표 이미지. 온오프라인 공통 기준 비주얼.</td>
+            <td class="ct-rule">kv-{campaign}-{YYYY}.svg<br>kv-{campaign}-{YYYY}.jpg</td>
+            <td><span class="badge badge-can">SVG 가능</span></td>
+            <td class="ct-fmt">SVG / JPG</td>
+          </tr>
+          <tr>
+            <td class="ct-name">Event Visual</td>
+            <td class="ct-eg">특정 행사·이벤트용 비주얼. 날짜·장소 정보 포함.</td>
+            <td class="ct-rule">ev-{event-name}-{YYYYMM}.svg</td>
+            <td><span class="badge badge-can">SVG 가능</span></td>
+            <td class="ct-fmt">SVG</td>
+          </tr>
+          <tr>
+            <td class="ct-name">Tech Content</td>
+            <td class="ct-eg">기술·제품 소개 콘텐츠. 블로그·영상·인포그래픽 등.</td>
+            <td class="ct-rule">tech-{topic}-{type}-{YYYY}.ext</td>
+            <td><span class="badge badge-alt">URL+MD</span></td>
+            <td class="ct-fmt">JPG/MP4 + MD</td>
+          </tr>
+          <tr>
+            <td class="ct-name">Marketing Asset</td>
+            <td class="ct-eg">SNS·배너·광고 등 마케팅 채널용 산출물.</td>
+            <td class="ct-rule">mkt-{channel}-{campaign}-{YYYYMM}.ext</td>
+            <td><span class="badge badge-alt">URL+MD</span></td>
+            <td class="ct-fmt">JPG/PNG + MD</td>
+          </tr>
+          <tr>
+            <td class="ct-name">Pattern / Texture</td>
+            <td class="ct-eg">브랜드 패턴·텍스처. 반복 사용 배경 요소.</td>
+            <td class="ct-rule">pattern-{name}-{variant}.svg</td>
+            <td><span class="badge badge-can">SVG 가능</span></td>
+            <td class="ct-fmt">SVG</td>
+          </tr>
+          <tr>
+            <td class="ct-name">Goods Visual</td>
+            <td class="ct-eg">굿즈 시안 및 최종 결과물 이미지.</td>
+            <td class="ct-rule">goods-{item}-{YYYYMM}.jpg</td>
+            <td><span class="badge badge-no">이미지만</span></td>
+            <td class="ct-fmt">JPG + MD</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>대표 케이스를 먼저 정한다.</strong>
+        전체 아카이브를 한번에 정리하려 하지 않는다. 유형별로 <strong>대표 1개</strong>를 먼저 골라 명명 규칙을 검증하고, 그게 나머지의 기준이 된다.
+        Brand Film 1개, Key Visual 1개, Event Visual 1개 — 이 3개로 시작한다.
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 3: 명명 규칙 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-num">3</div>
+      <div class="block-title">명명 규칙 — 이름이 곧 분류다</div>
+      <div class="block-sub">파일명만 봐도 무엇인지 알 수 있어야 한다</div>
+    </div>
+    <div class="block-body">
+
+      <div class="naming-box">
+<span class="c-dim"># 명명 구조</span><br>
+<span class="c-key">{유형}</span>-<span class="c-str">{내용/캠페인명}</span>-<span class="c-acc">{날짜}</span>.<span class="c-val">{확장자}</span><br>
+<br>
+<span class="c-dim"># 예시</span><br>
+<span class="c-key">kv</span>-<span class="c-str">summit2024</span>-<span class="c-acc">202406</span>.<span class="c-val">svg</span>      <span class="c-dim">← Key Visual, Summit 2024, 2024년 6월</span><br>
+<span class="c-key">ev</span>-<span class="c-str">ncloud-day</span>-<span class="c-acc">20240910</span>.<span class="c-val">svg</span>    <span class="c-dim">← Event Visual, NCLOUD DAY, 2024.09.10</span><br>
+<span class="c-key">mkt</span>-<span class="c-str">instagram</span>-<span class="c-str">ai-launch</span>-<span class="c-acc">202405</span>.<span class="c-val">jpg</span> <span class="c-dim">← 마케팅, 인스타, AI 런칭 캠페인</span><br>
+<span class="c-key">tech</span>-<span class="c-str">hyperclova</span>-<span class="c-str">thumbnail</span>-<span class="c-acc">2024</span>.<span class="c-val">jpg</span> <span class="c-dim">← 테크 콘텐츠, HyperCLOVA, 썸네일</span><br>
+<span class="c-key">brand-film</span>-<span class="c-acc">2024</span>.<span class="c-val">mp4</span>              <span class="c-dim">← 브랜드 필름, 2024년</span><br>
+<span class="c-key">pattern</span>-<span class="c-str">grid-green</span>-<span class="c-str">light</span>.<span class="c-val">svg</span>     <span class="c-dim">← 패턴, 그린 그리드, 라이트 버전</span>
+      </div>
+
+      <div class="note">
+        <strong>규칙 3가지만 지키면 된다.</strong>
+        ① 소문자만 사용, 공백 없이 하이픈(-) 연결.
+        ② 날짜는 YYYYMM 또는 YYYYMMDD — 일관되게.
+        ③ 유형 코드(kv / ev / mkt / tech / brand-film / pattern / goods)를 항상 앞에.
+        이 규칙이 폴더 구조, URL, 태그 체계와 모두 연결된다.
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 4: 태그 체계 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-num">4</div>
+      <div class="block-title">태그 체계 — 찾고 쓰기 위한 구조</div>
+      <div class="block-sub">파일명 + 태그가 같이 있어야 AI가 맥락을 이해한다</div>
+    </div>
+    <div class="block-body">
+
+      <div class="tag-section">
+        <div class="tag-group">
+          <div class="tag-group-label">유형 태그 — 무엇인가</div>
+          <div class="tags">
+            <span class="tag primary">key-visual</span>
+            <span class="tag primary">event-visual</span>
+            <span class="tag primary">brand-film</span>
+            <span class="tag primary">tech-content</span>
+            <span class="tag primary">marketing-asset</span>
+            <span class="tag primary">pattern</span>
+            <span class="tag primary">goods-visual</span>
+          </div>
+        </div>
+        <div class="tag-group">
+          <div class="tag-group-label">채널 태그 — 어디서 쓰나</div>
+          <div class="tags">
+            <span class="tag">online</span>
+            <span class="tag">offline</span>
+            <span class="tag">social</span>
+            <span class="tag">instagram</span>
+            <span class="tag">youtube</span>
+            <span class="tag">display-ad</span>
+            <span class="tag">print</span>
+            <span class="tag">signage</span>
+            <span class="tag">presentation</span>
+          </div>
+        </div>
+        <div class="tag-group">
+          <div class="tag-group-label">무드 태그 — 어떤 느낌인가</div>
+          <div class="tags">
+            <span class="tag">tech</span>
+            <span class="tag">minimal</span>
+            <span class="tag">bold</span>
+            <span class="tag">warm</span>
+            <span class="tag">dark</span>
+            <span class="tag">light</span>
+            <span class="tag">motion</span>
+            <span class="tag">static</span>
+          </div>
+        </div>
+        <div class="tag-group">
+          <div class="tag-group-label">상태 태그 — 현재 상태</div>
+          <div class="tags">
+            <span class="tag">representative</span>
+            <span class="tag">archived</span>
+            <span class="tag">in-use</span>
+            <span class="tag">deprecated</span>
+            <span class="tag">pilot</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MD 메타데이터 예시 -->
+      <div class="naming-box">
+<span class="c-dim"><!-- kv-summit2024-202406.md --></span><br>
+<span class="c-dim"><!-- 코드화 안 되는 자산은 이 MD 파일이 AI의 참조 기준이 된다 --></span><br>
+<br>
+<span class="c-key">name:</span> <span class="c-val">kv-summit2024-202406</span><br>
+<span class="c-key">type:</span> <span class="c-val">key-visual</span><br>
+<span class="c-key">date:</span> <span class="c-val">2024-06</span><br>
+<span class="c-key">tags:</span> <span class="c-str">[key-visual, online, offline, tech, minimal, representative]</span><br>
+<span class="c-key">color:</span> <span class="c-str">[brand-green, black, white]</span><br>
+<span class="c-key">mood:</span> <span class="c-val">미니멀, 테크, 클린</span><br>
+<span class="c-key">usage:</span> <span class="c-val">Summit 2024 행사 메인 비주얼. 온오프라인 공통 사용.</span><br>
+<span class="c-key">file-url:</span> <span class="c-url">https://gizmopasta.github.io/AX/assets/kv/kv-summit2024-202406.svg</span><br>
+<span class="c-key">status:</span> <span class="c-val">representative</span>
+      </div>
+
+      <div class="note">
+        <strong>태그는 브랜드 활용 기준이 된다.</strong>
+        "테크 콘텐츠 썸네일로 쓸 수 있는 미니멀한 이미지 찾아줘" — 태그가 잘 붙어 있으면 AI가 맥락에 맞는 자산을 바로 찾아준다. 태그 설계는 검색을 위한 것이기도 하지만, <strong>AI에게 자산의 맥락을 설명하는 언어</strong>이기도 하다.
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 5: 파일럿 케이스 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-num">5</div>
+      <div class="block-title">먼저 할 대표 케이스 — 유형별 1개씩</div>
+      <div class="block-sub">원칙 01 — 양이 아니라 대표 케이스 선행</div>
+    </div>
+    <div class="block-body">
+
+      <div class="pilot-grid">
+        <div class="pilot-card">
+          <div class="pilot-head">
+            <span class="pilot-badge" style="background:var(--green-dim);color:var(--green);">SVG 변환</span>
+            <span class="pilot-title">대표 Key Visual 1개</span>
+          </div>
+          <div class="pilot-body">
+            <div class="pilot-meta">가장 최근 + 가장 많이 쓰인 키비주얼 선정</div>
+            <div class="pilot-items">
+              <div class="pilot-item">Figma에서 SVG로 내보내기</div>
+              <div class="pilot-item">불필요 메타데이터 정리</div>
+              <div class="pilot-item">명명 규칙 적용 후 GitHub 업로드</div>
+              <div class="pilot-item">MD 메타데이터 파일 작성 (태그 포함)</div>
+              <div class="pilot-item">URL 확인 및 Foundation 파일에 등록</div>
+              <div class="pilot-item">→ 이게 Key Visual 정규화의 기준 케이스</div>
+            </div>
+          </div>
+        </div>
+        <div class="pilot-card">
+          <div class="pilot-head">
+            <span class="pilot-badge" style="background:var(--orange-dim);color:var(--orange);">URL+MD</span>
+            <span class="pilot-title">대표 Brand Film 1개</span>
+          </div>
+          <div class="pilot-body">
+            <div class="pilot-meta">가장 최근 브랜드 대표 영상 선정</div>
+            <div class="pilot-items">
+              <div class="pilot-item">영상 파일 또는 유튜브 URL 확정</div>
+              <div class="pilot-item">명명 규칙 적용 (brand-film-YYYY)</div>
+              <div class="pilot-item">MD 메타데이터 파일 작성 (무드·용도·태그)</div>
+              <div class="pilot-item">색상·레이아웃·톤을 텍스트로 개요 작성</div>
+              <div class="pilot-item">아카이빙 사이트에 링크+메타데이터로 등록</div>
+              <div class="pilot-item">→ 이게 영상 자산 아카이빙의 기준 케이스</div>
+            </div>
+          </div>
+        </div>
+        <div class="pilot-card">
+          <div class="pilot-head">
+            <span class="pilot-badge" style="background:var(--green-dim);color:var(--green);">SVG 변환</span>
+            <span class="pilot-title">대표 Event Visual 1개</span>
+          </div>
+          <div class="pilot-body">
+            <div class="pilot-meta">가장 반복 빈도 높은 행사 비주얼 선정</div>
+            <div class="pilot-items">
+              <div class="pilot-item">SVG 변환 가능 여부 먼저 확인</div>
+              <div class="pilot-item">가능하면 SVG, 불가하면 URL+MD 방식으로</div>
+              <div class="pilot-item">행사 유형 태그 체계 검증</div>
+              <div class="pilot-item">명명 규칙 적용 후 업로드</div>
+              <div class="pilot-item">Before·During·After 구조로 활용 기준 작성</div>
+              <div class="pilot-item">→ 행사 비주얼 정규화의 기준 케이스</div>
+            </div>
+          </div>
+        </div>
+        <div class="pilot-card">
+          <div class="pilot-head">
+            <span class="pilot-badge" style="background:var(--orange-dim);color:var(--orange);">URL+MD</span>
+            <span class="pilot-title">대표 Tech Content 1개</span>
+          </div>
+          <div class="pilot-body">
+            <div class="pilot-meta">가장 많이 참조된 테크 콘텐츠 선정</div>
+            <div class="pilot-items">
+              <div class="pilot-item">썸네일 이미지 명명 규칙 적용</div>
+              <div class="pilot-item">콘텐츠 주제·무드·채널 태그 작성</div>
+              <div class="pilot-item">URL + MD 메타데이터로 아카이빙</div>
+              <div class="pilot-item">Brand Prompt Library 소스로 연결</div>
+              <div class="pilot-item">AI가 이 케이스를 참조해 유사 콘텐츠 제안 가능</div>
+              <div class="pilot-item">→ 테크 콘텐츠 아카이빙의 기준 케이스</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>4개 대표 케이스가 완성되면 나머지는 같은 방식으로.</strong>
+        명명 규칙·태그 체계·MD 구조가 이 4개를 통해 검증된다.
+        이후 팀원 누구든 같은 기준으로 자산을 올릴 수 있고, AI도 같은 구조로 분류할 수 있다.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>NAVER Cloud BXD · Brand Experience Design · 2026</p>
+    <p>navercloudbxd.figma.site</p>
+  </footer>
+
+</div>
+</body>
+</html>
