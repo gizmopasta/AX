@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로고 SVG — 코드화 & 링크 배포</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #F07240;
+    --orange-dark: #C85520;
+    --orange-dim: rgba(240,114,64,0.10);
+    --orange-light: #FEF0EB;
+    --text: #1A1A1A;
+    --text-sec: #666666;
+    --text-ter: #AAAAAA;
+    --border: rgba(0,0,0,0.09);
+    --bg: #FFFFFF;
+    --bg-subtle: #FAFAFA;
+    --dark: #1A1A1A;
+  }
+  body { font-family: 'Pretendard', sans-serif; background: #F5F0EB; color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 1080px; margin: 0 auto; padding: 64px 48px 96px; }
+
+  /* HEADER */
+  .header {
+    background: var(--orange);
+    border-radius: 16px;
+    padding: 56px 60px 52px;
+    margin-bottom: 20px;
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; bottom: -80px; right: -80px;
+    width: 280px; height: 280px;
+    background: rgba(255,255,255,0.07); border-radius: 50%;
+    pointer-events: none;
+  }
+  .header-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.09em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 16px;
+  }
+  .header-title {
+    font-size: 46px; font-weight: 700; color: #fff;
+    letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 18px;
+  }
+  .header-desc { font-size: 15px; color: rgba(255,255,255,0.72); line-height: 1.75; max-width: 520px; }
+
+  /* CARD BASE */
+  .card {
+    background: var(--bg);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .card-head {
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card-head-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--orange); color: #fff;
+    font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-head-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .card-head-desc { font-size: 12px; color: var(--text-sec); margin-left: auto; }
+  .card-body { padding: 28px 28px; }
+
+  /* 4Q */
+  .four-q { display: flex; flex-direction: column; gap: 1px; border-radius: 14px; overflow: hidden; }
+  .fq-row { display: grid; grid-template-columns: 120px 1fr; }
+  .fq-key {
+    background: var(--orange);
+    padding: 26px 24px;
+    display: flex; align-items: center;
+  }
+  .fq-key-text { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
+  .fq-val { background: var(--bg); padding: 26px 32px; display: flex; flex-direction: column; justify-content: center; gap: 5px; border-bottom: 1px solid var(--border); }
+  .fq-row:last-child .fq-val { border-bottom: none; }
+  .fq-main { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.35; }
+  .fq-sub { font-size: 13px; color: var(--text-sec); line-height: 1.65; }
+
+  /* STEP */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step { display: grid; grid-template-columns: 48px 1fr; border-bottom: 1px solid var(--border); }
+  .step:last-child { border-bottom: none; }
+  .step-n {
+    background: var(--orange-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; color: var(--orange);
+  }
+  .step-body { padding: 18px 20px; }
+  .step-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .step-desc { font-size: 12px; color: var(--text-sec); line-height: 1.65; }
+  .code-block {
+    margin-top: 10px;
+    background: var(--dark);
+    border-radius: 6px; padding: 12px 14px;
+    font-family: 'Menlo','Monaco','Courier New',monospace;
+    font-size: 11px; color: #A8FF78; line-height: 1.75;
+    word-break: break-all;
+  }
+  .code-block .dim { color: rgba(255,255,255,0.3); }
+  .code-block .key { color: #79C0FF; }
+  .code-block .val { color: #F8CC69; }
+  .code-block .url { color: #A8FF78; text-decoration: underline; text-decoration-color: rgba(168,255,120,0.4); }
+
+  /* BEFORE AFTER */
+  .ba-wrap { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; align-items: stretch; }
+  .ba-col { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .ba-head { padding: 11px 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+  .ba-head.before { background: #F0F0F0; color: var(--text-ter); }
+  .ba-head.after  { background: var(--orange); color: #fff; }
+  .ba-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 0; }
+  .ba-item { font-size: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); line-height: 1.55; }
+  .ba-item:last-child { border-bottom: none; }
+  .ba-item.dim { color: var(--text-sec); }
+  .ba-item.em  { color: var(--text); font-weight: 600; }
+  .ba-arr { display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: var(--orange); }
+
+  /* UPDATE FLOW */
+  .update-flow {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  }
+  .uf-cell { background: var(--bg); padding: 20px 18px; }
+  .uf-num { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+  .uf-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.35; }
+  .uf-desc { font-size: 11px; color: var(--text-sec); line-height: 1.65; }
+  .uf-tag { margin-top: 8px; display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: var(--orange-dim); color: var(--orange-dark); }
+
+  /* KEY INSIGHT */
+  .insight {
+    background: var(--orange);
+    border-radius: 12px; padding: 32px 36px;
+    margin-bottom: 16px;
+    position: relative; overflow: hidden;
+  }
+  .insight::after {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    background: rgba(255,255,255,0.07); border-radius: 50%;
+    pointer-events: none;
+  }
+  .insight-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 12px; }
+  .insight-body { font-size: 20px; font-weight: 700; color: #fff; line-height: 1.45; letter-spacing: -0.01em; max-width: 700px; }
+  .insight-body em { font-style: normal; background: rgba(255,255,255,0.15); border-radius: 4px; padding: 1px 6px; }
+
+  /* NOTE */
+  .note { background: var(--bg); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: 13px; color: var(--text); line-height: 1.7; }
+  .note strong { font-weight: 700; }
+
+  /* SECTION SPACER */
+  .spacer { margin-bottom: 16px; }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; margin-top: 40px; }
+  .section-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .section-desc { font-size: 13px; color: var(--text-sec); line-height: 1.7; max-width: 620px; margin-bottom: 16px; }
+
+  footer { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+  footer p { font-size: 12px; color: var(--text-ter); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">BXD AI Native · 자산 코드화</div>
+    <h1 class="header-title">로고 하나를<br>어떻게 코드로 만드나</h1>
+    <p class="header-desc">파일을 공유하는 게 아니라, 링크 하나가 항상 최신을 가리키게 만드는 것. 로고 하나를 예시로 전체 과정을 풀어본다.</p>
+  </div>
+
+  <!-- 4Q -->
+  <div class="section-label">Overview</div>
+  <div class="section-title">한 줄 요약</div>
+  <div class="section-desc">어디까지, 무엇을, 어떻게, 어디에.</div>
+
+  <div class="four-q" style="margin-bottom:40px;">
+    <div class="fq-row">
+      <div class="fq-key"><div class="fq-key-text">어디까지</div></div>
+      <div class="fq-val">
+        <div class="fq-main">위키에 가이드된 범위 내에서</div>
+        <div class="fq-sub">BXD 브랜드 가이드에 명시된 로고·심볼·아이콘 자산. 전체를 한번에 하지 않고 유형별로 하나씩 기준을 잡으며 진행.</div>
+      </div>
+    </div>
+    <div class="fq-row">
+      <div class="fq-key"><div class="fq-key-text">무엇을</div></div>
+      <div class="fq-val">
+        <div class="fq-main">SVG 파일을</div>
+        <div class="fq-sub">AI·EPS·PNG 등 혼재된 파일 중 SVG로 변환 가능한 것부터. SVG는 코드로 읽히고, 어떤 크기에서도 깨지지 않으며, AI 툴이 직접 참조할 수 있다.</div>
+      </div>
+    </div>
+    <div class="fq-row">
+      <div class="fq-key"><div class="fq-key-text">어떻게</div></div>
+      <div class="fq-val">
+        <div class="fq-main">코드 변환하고,</div>
+        <div class="fq-sub">디자인 툴에서 SVG로 내보내기 → 불필요한 코드 정리 → 용도별 버전(화이트/블랙/컬러) 분리 → 파일명 규칙 통일. 처음엔 사람이 하고, AI와 협업으로 전환하며 속도를 줄인다.</div>
+      </div>
+    </div>
+    <div class="fq-row">
+      <div class="fq-key"><div class="fq-key-text">어디에</div></div>
+      <div class="fq-val">
+        <div class="fq-main">변환된 코드를 → GitHub 업로드 → 링크 지정한다</div>
+        <div class="fq-sub">파일이 GitHub 레포에 올라가면 고정 URL이 생긴다. 이 URL이 곧 배포 링크. 이후 파일을 수정해서 다시 올리면 URL은 그대로고 내용만 바뀐다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP BY STEP -->
+  <div class="section-label">Process</div>
+  <div class="section-title">단계별 작업</div>
+  <div class="section-desc">로고 하나를 기준으로, 처음부터 링크 배포까지.</div>
+
+  <div class="card">
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div class="step-body">
+          <div class="step-title">Figma에서 SVG로 내보내기</div>
+          <div class="step-desc">로고 프레임 선택 → Export → SVG 선택. 이때 "Include id" 옵션 끄고, 불필요한 그룹 레이어 정리. 파일명은 규칙을 따른다.</div>
+          <div class="code-block">
+            <span class="dim"># 파일명 규칙</span><br>
+            <span class="val">ncloud-logo-color.svg</span>  <span class="dim">← 기본 컬러</span><br>
+            <span class="val">ncloud-logo-white.svg</span>  <span class="dim">← 흰 배경용</span><br>
+            <span class="val">ncloud-logo-dark.svg</span>   <span class="dim">← 다크 배경용</span><br>
+            <span class="val">ncloud-symbol-color.svg</span> <span class="dim">← 심볼만</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div class="step-body">
+          <div class="step-title">SVG 코드 확인 및 정리</div>
+          <div class="step-desc">SVG 파일을 텍스트 에디터로 열어 불필요한 메타데이터 제거. width/height를 viewBox 기준으로 정리. 컬러값을 토큰과 맞게 확인.</div>
+          <div class="code-block">
+            <span class="dim">&lt;!-- 정리 전 --&gt;</span><br>
+            <span class="key">&lt;svg</span> <span class="val">width="200" height="48"</span> <span class="val">xmlns="..."</span> <span class="val">data-figma-id="..."</span><span class="key">&gt;</span><br><br>
+            <span class="dim">&lt;!-- 정리 후 --&gt;</span><br>
+            <span class="key">&lt;svg</span> <span class="val">viewBox="0 0 200 48"</span> <span class="val">xmlns="http://www.w3.org/2000/svg"</span><span class="key">&gt;</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div class="step-body">
+          <div class="step-title">GitHub 레포에 업로드</div>
+          <div class="step-desc">BXD 전용 레포(예: gizmopasta/AX)의 <code style="background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:11px;">assets/logo/</code> 폴더에 파일을 올린다. 폴더 구조가 URL 구조가 된다.</div>
+          <div class="code-block">
+            <span class="dim"># 레포 폴더 구조</span><br>
+            AX/<br>
+            &nbsp;&nbsp;assets/<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;logo/<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="val">ncloud-logo-color.svg</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="val">ncloud-logo-white.svg</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="val">ncloud-symbol-color.svg</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">4</div>
+        <div class="step-body">
+          <div class="step-title">링크 확인 — 이게 배포 URL</div>
+          <div class="step-desc">GitHub Pages가 켜져 있으면, 레포에 올라간 파일은 아래 URL로 바로 접근할 수 있다. 이 URL을 가이드 문서와 아카이빙 사이트에 등록해두면 끝.</div>
+          <div class="code-block">
+            <span class="url">https://gizmopasta.github.io/AX/assets/logo/ncloud-logo-color.svg</span><br><br>
+            <span class="dim"># 아이콘도 동일한 방식</span><br>
+            <span class="url">https://gizmopasta.github.io/AX/assets/logo/ncloud-symbol-color.svg</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">5</div>
+        <div class="step-body">
+          <div class="step-title">사용 방법 — 링크를 그대로 쓴다</div>
+          <div class="step-desc">받는 사람은 파일을 다운로드할 필요가 없다. 링크를 Figma, Notion, 문서, 코드 어디에서든 그대로 붙여넣으면 항상 최신 버전이 로드된다.</div>
+          <div class="code-block">
+            <span class="dim">&lt;!-- 웹/HTML에서 --&gt;</span><br>
+            <span class="key">&lt;img</span> <span class="val">src="https://gizmopasta.github.io/AX/assets/logo/ncloud-logo-color.svg"</span><span class="key">&gt;</span><br><br>
+            <span class="dim"># Notion, 슬랙, 문서에서</span><br>
+            <span class="val">링크 붙여넣기 → 미리보기로 바로 표시</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY INSIGHT: 업데이트 흐름 -->
+  <div class="insight" style="margin-top:40px; margin-bottom:16px;">
+    <div class="insight-label">핵심</div>
+    <div class="insight-body">
+      파일을 <em>공유하는 게 아니라</em><br>
+      링크 하나가 <em>항상 최신을 가리킨다</em>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:32px;">Update Flow</div>
+  <div class="section-title">업데이트할 때 달라지는 것</div>
+  <div class="section-desc">로고가 수정됐을 때 — 기존 방식과 링크 배포 방식의 차이.</div>
+
+  <div class="ba-wrap" style="margin-bottom:24px;">
+    <div class="ba-col">
+      <div class="ba-head before">지금 방식</div>
+      <div class="ba-body">
+        <div class="ba-item dim">① BXD에서 로고 파일 수정</div>
+        <div class="ba-item dim">② 새 파일 이름 바꿔서 저장<br><span style="font-size:11px;color:#bbb;">ncloud-logo-v3-final2.ai</span></div>
+        <div class="ba-item dim">③ 슬랙·메일로 공유 요청</div>
+        <div class="ba-item dim">④ 받는 사람이 각자 다운로드</div>
+        <div class="ba-item dim">⑤ 기존 파일 삭제하고 교체</div>
+        <div class="ba-item dim" style="color:#e57373;">⑥ 못 받은 팀은 구버전 계속 사용</div>
+      </div>
+    </div>
+    <div class="ba-arr">→</div>
+    <div class="ba-col">
+      <div class="ba-head after">링크 배포 방식</div>
+      <div class="ba-body">
+        <div class="ba-item em">① BXD에서 로고 파일 수정</div>
+        <div class="ba-item em">② 같은 파일명으로 GitHub에 덮어쓰기<br><span style="font-size:11px;color:var(--orange);">ncloud-logo-color.svg (그대로)</span></div>
+        <div class="ba-item em">③ 끝.</div>
+        <div class="ba-item em" style="color:var(--orange);">링크는 그대로, 내용만 바뀜</div>
+        <div class="ba-item em" style="color:var(--orange);">공유 안 해도 모두 최신 버전 자동 사용</div>
+        <div class="ba-item em" style="color:var(--orange);">구버전 사용 사고 없음</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 업데이트 4단계 -->
+  <div class="update-flow" style="margin-bottom:40px;">
+    <div class="uf-cell">
+      <div class="uf-num">Step 1</div>
+      <div class="uf-title">Figma에서 수정</div>
+      <div class="uf-desc">로고 파일을 업데이트하고 SVG로 다시 내보내기. 파일명은 동일하게 유지.</div>
+      <div class="uf-tag">Figma</div>
+    </div>
+    <div class="uf-cell" style="border-left:1px solid var(--border);">
+      <div class="uf-num">Step 2</div>
+      <div class="uf-title">GitHub에 덮어쓰기</div>
+      <div class="uf-desc">같은 경로에 같은 이름으로 파일을 다시 올린다. GitHub이 버전 히스토리를 자동으로 기록.</div>
+      <div class="uf-tag">GitHub</div>
+    </div>
+    <div class="uf-cell" style="border-left:1px solid var(--border);">
+      <div class="uf-num">Step 3</div>
+      <div class="uf-title">링크는 그대로</div>
+      <div class="uf-desc">배포 URL은 변하지 않는다. 이미 링크를 등록해둔 문서·사이트·코드 모두 자동으로 최신 버전을 불러온다.</div>
+      <div class="uf-tag">자동 반영</div>
+    </div>
+    <div class="uf-cell" style="border-left:1px solid var(--border);">
+      <div class="uf-num">Step 4</div>
+      <div class="uf-title">공유 없이 완료</div>
+      <div class="uf-desc">"새 파일 공유드립니다" 없이 끝. 받는 사람은 쓰던 링크 그대로 쓰면 된다. BXD가 소스를 가지고 있고 배포까지 컨트롤.</div>
+      <div class="uf-tag">BXD 컨트롤</div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div class="section-label">Result</div>
+  <div class="section-title">코드화 이후 달라지는 것</div>
+  <div class="section-desc">파일 배포 방식이 바뀌면 업무 흐름 전체가 바뀐다.</div>
+
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px;">
+    <div style="background:var(--bg); border-radius:10px; padding:24px 22px;">
+      <div style="font-size:10px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--orange); margin-bottom:10px;">변화 1</div>
+      <div style="font-size:15px; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.35;">파일 공유 요청이<br>사라진다</div>
+      <div style="font-size:12px; color:var(--text-sec); line-height:1.65;">"최신 로고 파일 받을 수 있나요?" — 이 요청이 없어진다. 링크가 항상 최신이니까. BXD로 들어오는 반복 요청 감소.</div>
+    </div>
+    <div style="background:var(--bg); border-radius:10px; padding:24px 22px;">
+      <div style="font-size:10px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--orange); margin-bottom:10px;">변화 2</div>
+      <div style="font-size:15px; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.35;">구버전 사용 사고가<br>없어진다</div>
+      <div style="font-size:12px; color:var(--text-sec); line-height:1.65;">누군가 예전 파일을 갖고 있어서 구버전 로고가 결과물에 들어가는 일이 없어진다. 소스가 하나이고, 링크가 하나다.</div>
+    </div>
+    <div style="background:var(--bg); border-radius:10px; padding:24px 22px;">
+      <div style="font-size:10px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--orange); margin-bottom:10px;">변화 3</div>
+      <div style="font-size:15px; font-weight:700; color:var(--text); margin-bottom:8px; line-height:1.35;">AI 툴이 로고를<br>직접 참조한다</div>
+      <div style="font-size:12px; color:var(--text-sec); line-height:1.65;">AI에게 로고 URL을 주면 파일 없이도 최신 로고를 불러와서 쓸 수 있다. Foundation 파일에 URL을 등록해두면 모든 AI 작업에 자동 적용.</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>결국 이게 코드화의 의미.</strong>
+    파일을 관리하는 게 아니라 <strong>소스를 가지고 있는 것</strong>.
+    BXD가 소스를 갖고 링크를 배포하면 — 업데이트도, 배포도, 버전 관리도 BXD가 컨트롤한다.
+    받는 사람은 그냥 링크를 쓰면 된다.
+  </div>
+
+  <footer>
+    <p>NAVER Cloud BXD · Brand Experience Design · 2026</p>
+    <p>navercloudbxd.figma.site</p>
+  </footer>
+
+</div>
+</body>
+</html>
