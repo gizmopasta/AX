@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG 정리 & GitHub URL</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #F07240;
+    --orange-dim: rgba(240,114,64,0.10);
+    --orange-light: #FEF0EB;
+    --text: #1A1A1A;
+    --text-sec: #666;
+    --text-ter: #AAA;
+    --border: rgba(0,0,0,0.09);
+    --bg: #fff;
+    --bg-subtle: #FAFAFA;
+  }
+  body { font-family: 'Pretendard', sans-serif; background: #F5F0EB; color: var(--text); -webkit-font-smoothing: antialiased; }
+  .page { max-width: 1000px; margin: 0 auto; padding: 56px 48px 80px; }
+
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+  .title { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; }
+  .desc { font-size: 14px; color: var(--text-sec); line-height: 1.75; max-width: 600px; margin-bottom: 40px; }
+
+  .block { background: var(--bg); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .block-head { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .block-head-badge { width: 26px; height: 26px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .block-head-title { font-size: 15px; font-weight: 700; }
+  .block-head-sub { font-size: 12px; color: var(--text-sec); margin-left: auto; }
+  .block-body { padding: 24px 24px; }
+
+  /* CODE DIFF */
+  .diff { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .diff-col { border-radius: 8px; overflow: hidden; }
+  .diff-label { padding: 9px 14px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .diff-label.before { background: #EFEFEF; color: #999; }
+  .diff-label.after  { background: var(--orange); color: #fff; }
+  .diff-code { background: #1A1A1A; padding: 16px 16px; font-family: 'Menlo','Monaco',monospace; font-size: 11px; line-height: 1.85; }
+
+  .c-dim    { color: rgba(255,255,255,0.28); }
+  .c-tag    { color: #79C0FF; }
+  .c-attr   { color: #F8CC69; }
+  .c-val    { color: #A8FF78; }
+  .c-rem    { color: #FF7B72; text-decoration: line-through; opacity: 0.6; }
+  .c-add    { color: #A8FF78; }
+  .c-str    { color: #FFA657; }
+  .c-note   { color: rgba(255,255,255,0.4); font-style: italic; }
+
+  .annotation { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+  .ann-item { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; }
+  .ann-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); margin-top: 5px; justify-self: center; }
+  .ann-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .ann-sub  { font-size: 12px; color: var(--text-sec); margin-top: 2px; }
+
+  /* FOLDER → URL */
+  .folder-wrap { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 0; align-items: center; }
+  .folder-box { background: #1A1A1A; border-radius: 8px; padding: 20px 20px; font-family: 'Menlo','Monaco',monospace; font-size: 12px; line-height: 2; }
+  .folder-arr { text-align: center; font-size: 22px; font-weight: 700; color: var(--orange); }
+  .url-box { background: #1A1A1A; border-radius: 8px; padding: 20px 20px; font-family: 'Menlo','Monaco',monospace; font-size: 12px; line-height: 2; }
+
+  .f-root  { color: #79C0FF; }
+  .f-dir   { color: #F8CC69; }
+  .f-file  { color: #A8FF78; }
+  .f-dim   { color: rgba(255,255,255,0.25); }
+  .f-hi    { color: #FFA657; }
+
+  .url-base   { color: rgba(255,255,255,0.4); }
+  .url-repo   { color: #79C0FF; }
+  .url-path   { color: #F8CC69; }
+  .url-file   { color: #A8FF78; }
+  .url-hi     { color: #FFA657; }
+
+  .mapping { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .map-row { display: grid; grid-template-columns: 1fr 24px 1fr; gap: 8px; align-items: center; background: var(--bg-subtle); border-radius: 6px; padding: 10px 14px; }
+  .map-left  { font-family: monospace; font-size: 12px; color: var(--text-sec); }
+  .map-arr   { text-align: center; font-size: 14px; color: var(--orange); font-weight: 700; }
+  .map-right { font-family: monospace; font-size: 11px; color: var(--text); word-break: break-all; }
+  .map-right a { color: var(--orange); text-decoration: none; }
+
+  .note { background: var(--bg); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: 13px; color: var(--text); line-height: 1.7; margin-top: 12px; }
+  .note strong { font-weight: 700; }
+
+  footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+  footer p { font-size: 12px; color: var(--text-ter); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">SVG 코드화 · 상세</div>
+  <h1 class="title">SVG 정리 & GitHub URL</h1>
+  <p class="desc">Figma에서 내보낸 SVG를 정리하는 방법, 그리고 GitHub 폴더 구조가 그대로 URL이 되는 원리.</p>
+
+  <!-- BLOCK 1: SVG 정리 -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-head-badge">1</div>
+      <div class="block-head-title">SVG 파일 정리 — Before / After</div>
+      <div class="block-head-sub">Figma에서 내보내면 불필요한 코드가 많이 붙어 나온다</div>
+    </div>
+    <div class="block-body">
+      <div class="diff">
+
+        <!-- BEFORE -->
+        <div class="diff-col">
+          <div class="diff-label before">Figma 내보내기 직후 — 정리 전</div>
+          <div class="diff-code">
+<span class="c-dim">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br>
+<span class="c-tag">&lt;svg</span><br>
+&nbsp;&nbsp;<span class="c-rem">width="200"</span><br>
+&nbsp;&nbsp;<span class="c-rem">height="48"</span><br>
+&nbsp;&nbsp;<span class="c-rem">viewBox="0 0 200 48"</span><br>
+&nbsp;&nbsp;<span class="c-rem">fill="none"</span><br>
+&nbsp;&nbsp;<span class="c-rem">xmlns:xlink="http://..."</span><br>
+&nbsp;&nbsp;<span class="c-rem">data-figma-id="123:456"</span><br>
+&nbsp;&nbsp;<span class="c-rem">data-figma-name="Logo/Color"</span><br>
+&nbsp;&nbsp;<span class="c-attr">xmlns=</span><span class="c-val">"http://www.w3.org/2000/svg"</span><br>
+<span class="c-tag">&gt;</span><br>
+&nbsp;&nbsp;<span class="c-tag">&lt;g</span> <span class="c-rem">id="Frame_1"</span> <span class="c-rem">clip-path="url(#clip0)"</span><span class="c-tag">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-tag">&lt;path</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-attr">fill=</span><span class="c-rem">"#03C75A"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-attr">d=</span><span class="c-val">"M12 0L24 12..."</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-tag">/&gt;</span><br>
+&nbsp;&nbsp;<span class="c-tag">&lt;/g&gt;</span><br>
+&nbsp;&nbsp;<span class="c-rem">&lt;defs&gt;&lt;clipPath id="clip0"&gt;...&lt;/clipPath&gt;&lt;/defs&gt;</span><br>
+<span class="c-tag">&lt;/svg&gt;</span>
+          </div>
+        </div>
+
+        <!-- AFTER -->
+        <div class="diff-col">
+          <div class="diff-label after">정리 후 — AI가 읽기 좋은 형태</div>
+          <div class="diff-code">
+<span class="c-tag">&lt;svg</span><br>
+&nbsp;&nbsp;<span class="c-add">viewBox="0 0 200 48"</span><br>
+&nbsp;&nbsp;<span class="c-attr">xmlns=</span><span class="c-val">"http://www.w3.org/2000/svg"</span><br>
+<span class="c-tag">&gt;</span><br>
+&nbsp;&nbsp;<span class="c-tag">&lt;path</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-attr">fill=</span><span class="c-add">"#03C75A"</span> <span class="c-note">← 토큰값 확인</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-attr">d=</span><span class="c-val">"M12 0L24 12..."</span><br>
+&nbsp;&nbsp;<span class="c-tag">/&gt;</span><br>
+<span class="c-tag">&lt;/svg&gt;</span><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 설명 -->
+      <div class="annotation" style="margin-top:20px;">
+        <div class="ann-item">
+          <div class="ann-dot"></div>
+          <div>
+            <div class="ann-text"><strong>width / height 제거, viewBox만 남긴다</strong></div>
+            <div class="ann-sub">width·height가 고정되어 있으면 크기를 CSS로 조절할 수 없다. viewBox만 있으면 어떤 크기에서도 비율을 유지하며 렌더링된다.</div>
+          </div>
+        </div>
+        <div class="ann-item">
+          <div class="ann-dot"></div>
+          <div>
+            <div class="ann-text"><strong>data-figma-* 속성 전부 제거</strong></div>
+            <div class="ann-sub">Figma 내부에서 쓰는 메타데이터. 배포 파일에 필요 없고 파일 용량만 늘린다.</div>
+          </div>
+        </div>
+        <div class="ann-item">
+          <div class="ann-dot"></div>
+          <div>
+            <div class="ann-text"><strong>불필요한 &lt;defs&gt; &lt;clipPath&gt; 제거</strong></div>
+            <div class="ann-sub">단순 로고에 clip-path가 붙어 나오는 경우가 많다. 실제로 클리핑이 필요한 게 아니면 제거. 없애면 코드가 훨씬 단순해진다.</div>
+          </div>
+        </div>
+        <div class="ann-item">
+          <div class="ann-dot"></div>
+          <div>
+            <div class="ann-text"><strong>fill 컬러값을 BXD 토큰과 맞게 확인</strong></div>
+            <div class="ann-sub">Figma에서 내보낼 때 컬러값이 정확히 나오는지 확인. BXD 그린은 <code style="background:#f0f0f0;padding:1px 5px;border-radius:3px;">#03C75A</code>. 비슷하지만 다른 값이 들어오는 경우가 있다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK 2: 폴더 → URL -->
+  <div class="block">
+    <div class="block-head">
+      <div class="block-head-badge">2</div>
+      <div class="block-head-title">폴더 구조가 그대로 URL이 된다</div>
+      <div class="block-head-sub">GitHub Pages가 켜져 있으면 파일 경로 = 접근 URL</div>
+    </div>
+    <div class="block-body">
+
+      <div class="folder-wrap">
+        <!-- 폴더 -->
+        <div class="folder-box">
+          <span class="f-root">AX/</span>  <span class="f-dim">← 레포 루트</span><br>
+          &nbsp;&nbsp;<span class="f-dir">assets/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="f-dir">logo/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="f-hi">ncloud-logo-color.svg</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="f-file">ncloud-logo-white.svg</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="f-file">ncloud-symbol-color.svg</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="f-dir">icon/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="f-file">icon-cloud.svg</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="f-file">icon-security.svg</span><br>
+          &nbsp;&nbsp;<span class="f-dir">foundation/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="f-file">bxd-system.md</span>
+        </div>
+
+        <div class="folder-arr">→</div>
+
+        <!-- URL -->
+        <div class="url-box">
+          <span class="url-base">https://</span><span class="url-repo">gizmopasta.github.io</span><span class="url-base">/</span><span class="url-repo">AX</span><span class="url-base">/</span><br>
+          &nbsp;&nbsp;<span class="url-path">assets/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="url-path">logo/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="url-hi">ncloud-logo-color.svg</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="url-file">ncloud-logo-white.svg</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="url-file">ncloud-symbol-color.svg</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="url-path">icon/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="url-file">icon-cloud.svg</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="url-file">icon-security.svg</span><br>
+          &nbsp;&nbsp;<span class="url-path">foundation/</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="url-file">bxd-system.md</span>
+        </div>
+      </div>
+
+      <!-- 매핑 -->
+      <div class="mapping">
+        <div class="map-row">
+          <div class="map-left">AX/assets/logo/<br>ncloud-logo-color.svg</div>
+          <div class="map-arr">→</div>
+          <div class="map-right"><a>gizmopasta.github.io/AX/<br>assets/logo/ncloud-logo-color.svg</a></div>
+        </div>
+        <div class="map-row">
+          <div class="map-left">AX/assets/icon/<br>icon-cloud.svg</div>
+          <div class="map-arr">→</div>
+          <div class="map-right"><a>gizmopasta.github.io/AX/<br>assets/icon/icon-cloud.svg</a></div>
+        </div>
+        <div class="map-row">
+          <div class="map-left">AX/foundation/<br>bxd-system.md</div>
+          <div class="map-arr">→</div>
+          <div class="map-right"><a>gizmopasta.github.io/AX/<br>foundation/bxd-system.md</a></div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>폴더 이름이 곧 분류 체계.</strong>
+        <code style="background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:11px;">assets/logo/</code>
+        <code style="background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:11px;">assets/icon/</code>
+        <code style="background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:11px;">foundation/</code> — 폴더 구조를 잘 잡아두면 URL만 봐도 어떤 자산인지 바로 알 수 있다.
+        파일명 규칙과 폴더 구조는 처음에 한 번만 잘 정하면 이후에 바꾸기 어려우니 Month 1에서 가장 먼저 합의해야 하는 것.
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>NAVER Cloud BXD · Brand Experience Design · 2026</p>
+    <p>navercloudbxd.figma.site</p>
+  </footer>
+
+</div>
+</body>
+</html>
