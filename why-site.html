@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Archiving Site</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #F07240;
+    --orange-dim: rgba(240,114,64,0.10);
+    --orange-light: #FEF0EB;
+    --green: #03C75A;
+    --green-dim: rgba(3,199,90,0.10);
+    --red: #FF4D4D;
+    --red-dim: rgba(255,77,77,0.08);
+    --text: #1A1A1A;
+    --text-sec: #666;
+    --text-ter: #AAA;
+    --border: rgba(0,0,0,0.09);
+    --bg: #fff;
+    --bg-subtle: #FAFAFA;
+    --dark: #1A1A1A;
+  }
+  body { font-family: 'Pretendard', sans-serif; background: #F5F0EB; color: var(--text); -webkit-font-smoothing: antialiased; }
+  .page { max-width: 1000px; margin: 0 auto; padding: 56px 48px 80px; }
+
+  /* HEADER */
+  .header { background: var(--dark); border-radius: 16px; padding: 52px 56px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(240,114,64,0.15) 0%, transparent 70%); pointer-events: none; }
+  .header-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
+  .header-title { font-size: 44px; font-weight: 700; color: #fff; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+  .header-title em { font-style: normal; color: var(--orange); }
+  .header-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.75; max-width: 560px; }
+
+  /* FLOW */
+  .flow { display: flex; flex-direction: column; gap: 12px; }
+
+  /* FLOW ITEM */
+  .fi { background: var(--bg); border-radius: 12px; overflow: hidden; }
+  .fi-inner { display: grid; grid-template-columns: 72px 1fr; }
+  .fi-left {
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    padding: 28px 0 28px; border-right: 1px solid var(--border);
+    gap: 8px;
+  }
+  .fi-step { font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-ter); }
+  .fi-num { font-size: 28px; font-weight: 800; color: var(--orange); letter-spacing: -0.03em; line-height: 1; }
+  .fi-right { padding: 28px 28px; }
+  .fi-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+  .fi-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 10px; }
+  .fi-title em { font-style: normal; color: var(--orange); }
+  .fi-desc { font-size: 13px; color: var(--text-sec); line-height: 1.75; max-width: 680px; margin-bottom: 14px; }
+
+  /* INLINE ITEMS */
+  .items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .item { font-size: 12px; padding: 6px 12px; border-radius: 20px; line-height: 1.4; }
+  .item-bad  { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,77,77,0.2); }
+  .item-good { background: var(--green-dim); color: #028A40; border: 1px solid rgba(3,199,90,0.2); }
+  .item-neu  { background: var(--bg-subtle); color: var(--text-sec); border: 1px solid var(--border); }
+  .item-ora  { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(240,114,64,0.2); }
+
+  /* BA 2COL */
+  .ba { display: grid; grid-template-columns: 1fr 28px 1fr; gap: 0; align-items: stretch; }
+  .ba-col { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .ba-head { padding: 8px 14px; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .ba-head.before { background: #F0F0F0; color: var(--text-ter); }
+  .ba-head.after  { background: var(--orange); color: #fff; }
+  .ba-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .ba-item { font-size: 12px; line-height: 1.6; padding: 7px 10px; border-radius: 5px; }
+  .ba-item.dim  { background: #F5F5F5; color: var(--text-sec); }
+  .ba-item.good { background: var(--orange-dim); color: var(--text); }
+  .ba-arr { display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: var(--orange); }
+
+  /* TABLE */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; table-layout: fixed; }
+  .tbl th { padding: 9px 14px; text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-sec); background: var(--bg-subtle); border-bottom: 1px solid var(--border); }
+  .tbl td { padding: 11px 14px; vertical-align: top; border-bottom: 1px solid var(--border); line-height: 1.6; word-break: keep-all; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl .hl { color: var(--orange); font-weight: 700; }
+
+  /* USER GRID */
+  .user-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .user-card { border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
+  .user-head { padding: 10px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+  .user-head.make { background: var(--orange); color: #fff; }
+  .user-head.use  { background: var(--dark); color: rgba(255,255,255,0.7); }
+  .user-body { padding: 14px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .user-item { font-size: 12px; color: var(--text); line-height: 1.55; padding-left: 12px; position: relative; }
+  .user-item::before { content: ''; position: absolute; left: 0; top: 7px; width: 4px; height: 4px; border-radius: 50%; }
+  .user-card.make .user-item::before { background: var(--orange); }
+  .user-card.use  .user-item::before { background: var(--text-ter); }
+
+  /* FIGMA COMPARE */
+  .fig-tbl { width: 100%; border-collapse: collapse; font-size: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .fig-tbl th { padding: 9px 14px; text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; background: var(--bg-subtle); color: var(--text-sec); border-bottom: 1px solid var(--border); }
+  .fig-tbl th.hi { background: var(--orange); color: #fff; }
+  .fig-tbl td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; word-break: keep-all; }
+  .fig-tbl tr:last-child td { border-bottom: none; }
+  .fig-tbl .row-label { font-weight: 700; color: var(--text); }
+  .fig-tbl .bad { color: var(--text-sec); }
+  .fig-tbl .good { color: var(--orange); font-weight: 600; }
+
+  /* CONCLUSION */
+  .conclusion { background: var(--orange); border-radius: 12px; padding: 40px 44px; position: relative; overflow: hidden; }
+  .conclusion::before { content: ''; position: absolute; bottom: -60px; right: -60px; width: 220px; height: 220px; background: rgba(255,255,255,0.08); border-radius: 50%; pointer-events: none; }
+  .conclusion-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 12px; }
+  .conclusion-title { font-size: 26px; font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 14px; }
+  .conclusion-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.75; max-width: 600px; }
+
+  /* NOTE */
+  .note { background: var(--bg); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13px; color: var(--text); line-height: 1.7; margin-top: 10px; }
+  .note strong { font-weight: 700; }
+
+  footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+  footer p { font-size: 12px; color: var(--text-ter); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">BXD AI Native · Archiving Site</div>
+    <h1 class="header-title">왜 아카이빙 사이트가<br><em>필요한가</em></h1>
+    <p class="header-desc">
+      UI 시스템 구축이 아니다. 보여주는 문서도 아니다.<br>
+      만든 것들이 실제로 쓰이기 위한 구조 — 그게 사이트가 필요한 이유다.
+    </p>
+  </div>
+
+  <div class="flow">
+
+    <!-- 01 -->
+    <div class="fi">
+      <div class="fi-inner">
+        <div class="fi-left">
+          <div class="fi-step">step</div>
+          <div class="fi-num">01</div>
+        </div>
+        <div class="fi-right">
+          <div class="fi-label">지금 상태의 문제</div>
+          <div class="fi-title">만든 게 있는데<br><em>아무도 모른다</em></div>
+          <div class="fi-desc">로고는 SVG로 만들었다. 컬러는 JSON으로 정리했다. Foundation 파일도 있다. GitHub URL도 있다. 근데 그 URL을 아는 사람이 없으면 — 없는 것과 같다.</div>
+          <div class="items">
+            <div class="item item-bad">URL이 있어도 공유 안 하면 없는 것</div>
+            <div class="item item-bad">버전이 뭔지 아무도 모름</div>
+            <div class="item item-bad">BXD한테 물어봐야 알 수 있음</div>
+            <div class="item item-bad">드라이브 어딘가에 있는 파일 — 찾을 수 없음</div>
+            <div class="item item-bad">쓰고 있는지조차 파악 안 됨</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="fi">
+      <div class="fi-inner">
+        <div class="fi-left">
+          <div class="fi-step">step</div>
+          <div class="fi-num">02</div>
+        </div>
+        <div class="fi-right">
+          <div class="fi-label">그래서 필요한 것</div>
+          <div class="fi-title">보여주는 문서가 아니라<br><em>활용하는 데이터</em></div>
+          <div class="fi-desc">가이드 페이지를 만드는 게 아니다. 자산을 찾을 수 있고, 꺼내 쓸 수 있고, 실제로 활용되는지 추적되는 구조가 필요하다.</div>
+          <div class="ba" style="margin-top:4px;">
+            <div class="ba-col">
+              <div class="ba-head before">지금 — 보는 문서</div>
+              <div class="ba-body">
+                <div class="ba-item dim">로고 → 가이드 페이지에 이미지로 게시</div>
+                <div class="ba-item dim">색상 → 'Blue 500' 같은 일반 명명</div>
+                <div class="ba-item dim">사례·콘텐츠 → 참고용 모음</div>
+                <div class="ba-item dim">사용 방법 → 가이드 본문 텍스트</div>
+              </div>
+            </div>
+            <div class="ba-arr">→</div>
+            <div class="ba-col">
+              <div class="ba-head after">전환 후 — 활용하는 데이터</div>
+              <div class="ba-body">
+                <div class="ba-item good">로고 → URL로 실시간 호출. 항상 최신 자동 반영</div>
+                <div class="ba-item good">색상 → 'Action-Primary'처럼 의미 기반. AI가 맥락 이해</div>
+                <div class="ba-item good">사례·콘텐츠 → 태그 지정, 라이브러리화, 검색·추천 가능</div>
+                <div class="ba-item good">사용 방법 → 같이 쓸 수 있는 프롬프트 함께 제공</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="fi">
+      <div class="fi-inner">
+        <div class="fi-left">
+          <div class="fi-step">step</div>
+          <div class="fi-num">03</div>
+        </div>
+        <div class="fi-right">
+          <div class="fi-label">사이트여야 하는 이유</div>
+          <div class="fi-title">파일이 아니라<br><em>링크로 호출</em>된다</div>
+          <div class="fi-desc">드라이브에 올려두는 것과 사이트로 배포하는 것은 다르다. 사이트는 링크 하나로 접근하고, AI가 URL로 직접 자산을 참조할 수 있다.</div>
+          <div class="items">
+            <div class="item item-good">링크 하나 — 권한 요청 없이 바로 접근</div>
+            <div class="item item-good">AI가 URL로 자산 직접 참조</div>
+            <div class="item item-good">업데이트하면 링크는 그대로, 내용만 바뀜</div>
+            <div class="item item-good">Figma에서 작업하다 바로 열 수 있음</div>
+            <div class="item item-good">추적 코드로 실제 활용 데이터 수집</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="fi">
+      <div class="fi-inner">
+        <div class="fi-left">
+          <div class="fi-step">step</div>
+          <div class="fi-num">04</div>
+        </div>
+        <div class="fi-right">
+          <div class="fi-label">만드는 사람 / 쓰는 사람</div>
+          <div class="fi-title">일방적인 가이드가 아니라<br><em>모두의 관점</em></div>
+          <div class="fi-desc">아카이브가 풀어주는 두 사람의 문제. 일하면서 기준이 자동으로 적용되는 구조여야 의미가 있다.</div>
+          <div class="user-grid">
+            <div class="user-card make">
+              <div class="user-head make">만드는 사람 — BXD</div>
+              <div class="user-body">
+                <div class="user-item">케이스가 쌓여야 기준을 추출할 수 있다</div>
+                <div class="user-item">근거가 있어야 규칙을 만들 수 있다</div>
+                <div class="user-item">히스토리 없이는 가이드 업데이트 불가</div>
+                <div class="user-item">수시로 업데이트하고 바로 게시</div>
+                <div class="user-item">아카이브 = 더 나은 경험을 위한 과정</div>
+              </div>
+            </div>
+            <div class="user-card use">
+              <div class="user-head use">쓰는 사람 — 조직 전체</div>
+              <div class="user-body">
+                <div class="user-item">레퍼런스 찾는 시간이 줄어든다</div>
+                <div class="user-item">유사 케이스에서 판단 기준을 빌릴 수 있다</div>
+                <div class="user-item">승인 과정이 줄고 자율성이 올라간다</div>
+                <div class="user-item">범위·제한 기준이 있어 스스로 판단 가능</div>
+                <div class="user-item">아카이브 = 실전 판단의 참고서</div>
+              </div>
+            </div>
+          </div>
+          <div class="note">
+            <strong>태그와 범위·제한 기준이 핵심.</strong> 자산마다 용도·채널·맥락 태그와 "어디까지 써도 되는지"가 붙어 있어야 쓰는 사람이 BXD 없이 스스로 판단할 수 있다. 기준이 없으면 물어보는 비용이 계속 발생한다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="fi">
+      <div class="fi-inner">
+        <div class="fi-left">
+          <div class="fi-step">step</div>
+          <div class="fi-num">05</div>
+        </div>
+        <div class="fi-right">
+          <div class="fi-label">Figma Site여야 하는 이유</div>
+          <div class="fi-title">개발자 없이<br><em>BXD가 직접</em> 만들고 게시한다</div>
+          <div class="fi-desc">사이트 구축에 시간·인력 투자가 어려운 상황. 그렇다고 Figma 없이 일할 수도 없다. AI 호출이 가능한 툴이어야 앞으로 대응이 가능하다.</div>
+          <table class="fig-tbl">
+            <thead>
+              <tr>
+                <th style="width:140px;">조건</th>
+                <th>일반 사이트 구축</th>
+                <th class="hi">Figma Site</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="row-label">개발자 단계</td>
+                <td class="bad">필요</td>
+                <td class="good">생략 — 게시·업데이트 누르면 끝</td>
+              </tr>
+              <tr>
+                <td class="row-label">구축 부담</td>
+                <td class="bad">큼 — 시간·비용 투자</td>
+                <td class="good">없음 — Figma 쓰듯이</td>
+              </tr>
+              <tr>
+                <td class="row-label">쓰는 사람의 기여</td>
+                <td class="bad">업로드·요청 거쳐야 함</td>
+                <td class="good">바로 Figma 붙여줄 수 있음</td>
+              </tr>
+              <tr>
+                <td class="row-label">AI 호출 여부</td>
+                <td class="bad">별도 연동 필요</td>
+                <td class="good">가능 — URL 기반 자산 호출</td>
+              </tr>
+              <tr>
+                <td class="row-label">업데이트 흐름</td>
+                <td class="bad">배포·릴리즈 사이클</td>
+                <td class="good">실시간 — Figma Make 연동</td>
+              </tr>
+              <tr>
+                <td class="row-label">활용 추적</td>
+                <td class="bad">별도 분석 툴 필요</td>
+                <td class="good">추적 코드 심어서 데이터 수집 가능</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="conclusion">
+      <div class="conclusion-label">결론</div>
+      <div class="conclusion-title">쌓아온 자산이 잠들지 않게 하는 구조.<br>만들고 끝이 아니라 계속 쓰이는 인프라.</div>
+      <div class="conclusion-desc">
+        로고를 SVG로 만들고, 컬러를 JSON으로 정리하고, Foundation 파일을 GitHub에 올렸다.<br>
+        이 모든 것이 사이트 없이는 BXD만 아는 URL로 남는다.<br>
+        아카이빙 사이트는 그 URL들이 실제로 찾아지고, 쓰이고, 쌓이는 구조다.
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>NAVER Cloud BXD · Brand Experience Design · 2026</p>
+    <p>navercloudbxd.figma.site</p>
+  </footer>
+
+</div>
+</body>
+</html>
