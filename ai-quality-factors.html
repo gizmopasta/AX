@@ -432,6 +432,111 @@
             <span style="color:var(--green); font-weight:700;">MD가 생기면 프롬프트도 검수도 달라진다 — MD 하나가 모든 것에 영향을 준다.</span>
           </div>
         </div>
+
+        <!-- 두 번째 예시 묶음: MD만 / MD+프롬프트 / 프롬프트만 -->
+        <div style="margin-top:28px;">
+          <div style="font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--orange); margin-bottom:16px;">두 번째 예시 — MD의 유무가 프롬프트 결과를 어떻게 바꾸는가</div>
+
+          <div style="background:var(--bg-subtle); border:1px solid var(--border); border-radius:8px; padding:14px 18px; margin-bottom:16px; display:flex; align-items:center; gap:12px;">
+            <div style="font-size:11px; font-weight:700; color:var(--text-sec); letter-spacing:.05em; text-transform:uppercase; flex-shrink:0;">작업</div>
+            <div style="font-size:13px; color:var(--text); font-weight:600;">"다음 달 HyperCLOVA X 기능 업데이트 소식을 테크 블로그 포스팅으로 써줘"</div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
+
+            <!-- MD만 -->
+            <div style="border:1px solid var(--blue); border-radius:10px; overflow:hidden;">
+              <div style="padding:12px 16px; background:var(--blue-dim); border-bottom:1px solid rgba(27,67,255,0.15);">
+                <div style="font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--blue); margin-bottom:2px;">MD만</div>
+                <div style="font-size:13px; font-weight:700; color:var(--text);">Foundation 있고<br>프롬프트는 짧게</div>
+                <div style="font-size:11px; color:var(--text-sec); margin-top:3px;">기준은 있고 방향 지시 없음</div>
+              </div>
+              <div style="padding:16px 16px;">
+                <div style="background:var(--blue-dim); border-radius:6px; padding:10px 12px; font-size:11px; color:var(--text-sec); line-height:1.7; margin-bottom:12px; border:1px dashed rgba(27,67,255,0.2);">
+                  <span style="font-weight:700; color:var(--text);">프롬프트:</span> "HyperCLOVA X 업데이트 블로그 포스팅 써줘"<br>
+                  <span style="font-weight:700; color:var(--blue);">+ Foundation 첨부</span>
+                </div>
+                <div style="font-size:11px; font-weight:700; color:var(--text-ter); margin-bottom:8px; letter-spacing:.04em;">AI 결과물</div>
+                <div style="background:var(--blue-dim); border-radius:6px; padding:12px 14px; font-size:12px; color:var(--text); line-height:1.85; font-style:italic; border-left:3px solid var(--blue);">
+                  "HyperCLOVA X가 새로운 기능 업데이트를 발표했습니다.<br>
+                  이번 업데이트에는 RAG 성능 개선, API 응답 속도 30% 향상이 포함됩니다.<br>
+                  기업 고객의 실제 운영 환경에 바로 적용 가능합니다."
+                </div>
+                <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:5px;">
+                  <span style="font-size:10px; background:var(--green-dim); color:var(--green); padding:2px 7px; border-radius:4px; font-weight:700;">BXD 톤 유지</span>
+                  <span style="font-size:10px; background:var(--green-dim); color:var(--green); padding:2px 7px; border-radius:4px; font-weight:700;">사실 기반</span>
+                  <span style="font-size:10px; background:var(--orange-dim); color:var(--orange); padding:2px 7px; border-radius:4px; font-weight:700;">대상 불명확</span>
+                </div>
+                <div style="margin-top:10px; font-size:11px; color:var(--text-sec); line-height:1.6;">톤은 맞는데 누가 읽는 글인지, 어떤 목적의 포스팅인지가 없어서 깊이와 방향이 모호하다. 개발자 대상인지 의사결정자 대상인지에 따라 내용이 완전히 달라져야 한다.</div>
+              </div>
+            </div>
+
+            <!-- MD + 프롬프트 -->
+            <div style="border:1px solid var(--green); border-radius:10px; overflow:hidden;">
+              <div style="padding:12px 16px; background:var(--green-dim); border-bottom:1px solid rgba(3,199,90,0.2);">
+                <div style="font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--green); margin-bottom:2px;">MD + 프롬프트</div>
+                <div style="font-size:13px; font-weight:700; color:var(--text);">Foundation 있고<br>프롬프트도 구체적</div>
+                <div style="font-size:11px; color:var(--text-sec); margin-top:3px;">기준 + 방향 모두 있음</div>
+              </div>
+              <div style="padding:16px 16px;">
+                <div style="background:#F0FFF6; border-radius:6px; padding:10px 12px; font-size:11px; color:var(--text-sec); line-height:1.7; margin-bottom:12px; border:1px dashed rgba(3,199,90,0.3);">
+                  <span style="font-weight:700; color:var(--text);">프롬프트:</span> "개발자·CTO 대상. RAG 성능 개선을 중심으로. 기술 수치 포함. 실제 적용 시나리오로 마무리."<br>
+                  <span style="font-weight:700; color:var(--green);">+ Foundation 첨부</span>
+                </div>
+                <div style="font-size:11px; font-weight:700; color:var(--text-ter); margin-bottom:8px; letter-spacing:.04em;">AI 결과물</div>
+                <div style="background:var(--green-dim); border-radius:6px; padding:12px 14px; font-size:12px; color:var(--text); line-height:1.85; font-style:italic; border-left:3px solid var(--green);">
+                  "HyperCLOVA X RAG 엔진 v2.3이 업데이트됐습니다.<br>
+                  벡터 검색 정확도 41% 향상, 응답 지연 210ms → 148ms.<br>
+                  금융·공공 문서 검색 환경에서 즉시 적용 가능한 파라미터 설정 가이드를 함께 제공합니다."
+                </div>
+                <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:5px;">
+                  <span style="font-size:10px; background:var(--green-dim); color:var(--green); padding:2px 7px; border-radius:4px; font-weight:700;">BXD 톤 유지</span>
+                  <span style="font-size:10px; background:var(--green-dim); color:var(--green); padding:2px 7px; border-radius:4px; font-weight:700;">기술 수치 포함</span>
+                  <span style="font-size:10px; background:var(--green-dim); color:var(--green); padding:2px 7px; border-radius:4px; font-weight:700;">대상 맞춤</span>
+                  <span style="font-size:10px; background:var(--green-dim); color:var(--green); padding:2px 7px; border-radius:4px; font-weight:700;">적용 시나리오</span>
+                </div>
+                <div style="margin-top:10px; font-size:11px; color:var(--text-sec); line-height:1.6;">기준(MD)이 톤을 잡고, 프롬프트가 방향을 잡는다. 수정 없이 바로 발행 가능한 수준.</div>
+              </div>
+            </div>
+
+            <!-- 프롬프트만 -->
+            <div style="border:1px solid var(--border); border-radius:10px; overflow:hidden;">
+              <div style="padding:12px 16px; background:#F5F5F5; border-bottom:1px solid var(--border);">
+                <div style="font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text-ter); margin-bottom:2px;">프롬프트만</div>
+                <div style="font-size:13px; font-weight:700; color:var(--text);">Foundation 없고<br>프롬프트만 구체적</div>
+                <div style="font-size:11px; color:var(--text-sec); margin-top:3px;">방향은 있고 기준은 없음</div>
+              </div>
+              <div style="padding:16px 16px;">
+                <div style="background:#F5F5F5; border-radius:6px; padding:10px 12px; font-size:11px; color:var(--text-sec); line-height:1.7; margin-bottom:12px; border:1px dashed var(--border);">
+                  <span style="font-weight:700; color:var(--text);">프롬프트:</span> "개발자·CTO 대상. RAG 성능 개선을 중심으로. 기술 수치 포함. 실제 적용 시나리오로 마무리."
+                </div>
+                <div style="font-size:11px; font-weight:700; color:var(--text-ter); margin-bottom:8px; letter-spacing:.04em;">AI 결과물</div>
+                <div style="background:#FAFAFA; border-radius:6px; padding:12px 14px; font-size:12px; color:var(--text-sec); line-height:1.85; font-style:italic; border-left:3px solid var(--border);">
+                  "🚀 HyperCLOVA X의 놀라운 업데이트를 소개합니다!<br>
+                  혁신적인 RAG 엔진으로 검색 정확도가 대폭 향상됐습니다.<br>
+                  지금 바로 여러분의 서비스에 적용해보세요."
+                </div>
+                <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:5px;">
+                  <span style="font-size:10px; background:var(--orange-dim); color:var(--orange); padding:2px 7px; border-radius:4px; font-weight:700;">방향은 맞음</span>
+                  <span style="font-size:10px; background:var(--red-dim); color:var(--red); padding:2px 7px; border-radius:4px; font-weight:700;">'혁신' '놀라운' 금지어</span>
+                  <span style="font-size:10px; background:var(--red-dim); color:var(--red); padding:2px 7px; border-radius:4px; font-weight:700;">이모지 사용</span>
+                  <span style="font-size:10px; background:var(--red-dim); color:var(--red); padding:2px 7px; border-radius:4px; font-weight:700;">B2B 톤 아님</span>
+                </div>
+                <div style="margin-top:10px; font-size:11px; color:var(--text-sec); line-height:1.6;">방향 지시는 잘 따랐는데 BXD가 쓰지 말아야 할 표현들이 그대로 나온다. 기준이 없으면 프롬프트를 아무리 잘 써도 한계가 있다.</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div style="background:var(--dark); border-radius:8px; padding:16px 20px; margin-top:14px;">
+            <div style="font-size:13px; color:rgba(255,255,255,0.9); line-height:1.75;">
+              <span style="color:var(--orange); font-weight:700;">핵심.</span>
+              MD만 있으면 톤은 맞지만 누가 읽는지 무엇을 위한 글인지가 모호하다.
+              프롬프트만 있으면 방향은 맞지만 기준이 없어서 금지어·이모지가 그대로 나온다.
+              <span style="color:var(--orange); font-weight:700;">MD가 기준을 잡고 프롬프트가 방향을 잡을 때 — 비로소 수정 없이 쓸 수 있는 결과물이 나온다.</span>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
