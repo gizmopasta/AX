@@ -130,12 +130,53 @@
     </p>
   </div>
 
-  <!-- SECTION 1: 각 요소의 역할 -->
+  <!-- SECTION 1: 지금 현실 순위 -->
   <div class="sec">
     <div class="sec-head">
-      <div class="sec-num" style="background:#111;">1</div>
-      <div class="sec-title">4가지 요소 — 각자 다른 것에 영향을 준다</div>
-      <div class="sec-sub">순위 경쟁이 아니라 역할이 다르다</div>
+      <div class="sec-num" style="background:var(--red);">1</div>
+      <div class="sec-title">지금 현실 — 사람검수가 가장 무겁다</div>
+      <div class="sec-sub">MD/Foundation이 없는 상태</div>
+    </div>
+    <div class="sec-body">
+      <div class="now-grid" style="margin-bottom:20px;">
+        <div class="now-card n1">
+          <div class="now-rank">현재 영향력 1위</div>
+          <div class="now-name">사람검수</div>
+          <div class="now-reason">MD가 없으면 기준이 사람 머릿속에만 있다. AI가 뭘 만들든 처음부터 끝까지 사람이 보고 판단해야 한다. 검수가 가장 무겁고, 반복적이고, 병목이다.</div>
+          <div class="now-bar"><div class="now-bar-fill"></div></div>
+        </div>
+        <div class="now-card n2">
+          <div class="now-rank">현재 영향력 2위</div>
+          <div class="now-name">스킬</div>
+          <div class="now-reason">기준이 없으니 개인 역량이 결과를 결정한다. 누가 하느냐에 따라 품질 편차가 크다. 스킬 높은 사람 = 좋은 결과, 그 반대도 성립.</div>
+          <div class="now-bar"><div class="now-bar-fill"></div></div>
+        </div>
+        <div class="now-card n3">
+          <div class="now-rank">현재 영향력 3위</div>
+          <div class="now-name">프롬프트</div>
+          <div class="now-reason">기준까지 매번 프롬프트에 담아야 한다. 길고 복잡하고, 작성자마다 다르다. 잘 써도 다음 번에는 또 처음부터.</div>
+          <div class="now-bar"><div class="now-bar-fill"></div></div>
+        </div>
+        <div class="now-card n4">
+          <div class="now-rank">현재 영향력 4위</div>
+          <div class="now-name">MD / Foundation</div>
+          <div class="now-reason">지금은 없거나 AI가 읽을 수 없는 형태다. PDF·AI 파일로 존재하는 가이드는 사람만 읽는 문서다. 영향력이 낮은 게 아니라 아직 작동하지 않는 것.</div>
+          <div class="now-bar"><div class="now-bar-fill"></div></div>
+        </div>
+      </div>
+      <div class="note" style="border-left-color:var(--red);">
+        <strong>이 순위가 나올 수밖에 없는 이유가 있다.</strong>
+        4가지 요소는 각자 다른 것에 영향을 준다. MD가 없는 지금 상태에서는 기준이 사람 머릿속에만 존재하기 때문에 사람검수가 모든 것을 감당할 수밖에 없다. 다음 섹션에서 각 요소의 역할을 보면 왜 이 순위가 필연적인지 이해할 수 있다.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: 역할 구조 — 왜 이 순위가 나올 수밖에 없는가 -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num" style="background:#111;">2</div>
+      <div class="sec-title">왜 이 순위가 나올 수밖에 없는가 — 4가지 역할이 다르다</div>
+      <div class="sec-sub">순위 경쟁이 아니라 역할 분담</div>
     </div>
     <div class="sec-body">
       <div class="role-grid">
@@ -176,56 +217,20 @@
     </div>
   </div>
 
-  <!-- SECTION 2: 지금 현실 -->
-  <div class="sec">
-    <div class="sec-head">
-      <div class="sec-num" style="background:var(--red);">2</div>
-      <div class="sec-title">지금 현실 — 사람검수가 가장 무겁다</div>
-      <div class="sec-sub">MD/Foundation이 없는 상태</div>
-    </div>
-    <div class="sec-body">
-      <div class="now-grid" style="margin-bottom:20px;">
-        <div class="now-card n1">
-          <div class="now-rank">현재 영향력 1위</div>
-          <div class="now-name">사람검수</div>
-          <div class="now-reason">MD가 없으면 기준이 사람 머릿속에만 있다. AI가 뭘 만들든 처음부터 끝까지 사람이 보고 판단해야 한다. 검수가 가장 무겁고, 반복적이고, 병목이다.</div>
-          <div class="now-bar"><div class="now-bar-fill"></div></div>
-        </div>
-        <div class="now-card n2">
-          <div class="now-rank">현재 영향력 2위</div>
-          <div class="now-name">스킬</div>
-          <div class="now-reason">기준이 없으니 개인 역량이 결과를 결정한다. 누가 하느냐에 따라 품질 편차가 크다. 스킬 높은 사람 = 좋은 결과, 그 반대도 성립.</div>
-          <div class="now-bar"><div class="now-bar-fill"></div></div>
-        </div>
-        <div class="now-card n3">
-          <div class="now-rank">현재 영향력 3위</div>
-          <div class="now-name">프롬프트</div>
-          <div class="now-reason">기준까지 매번 프롬프트에 담아야 한다. 길고 복잡하고, 작성자마다 다르다. 잘 써도 다음 번에는 또 처음부터.</div>
-          <div class="now-bar"><div class="now-bar-fill"></div></div>
-        </div>
-        <div class="now-card n4">
-          <div class="now-rank">현재 영향력 4위</div>
-          <div class="now-name">MD / Foundation</div>
-          <div class="now-reason">지금은 없거나 AI가 읽을 수 없는 형태다. PDF·AI 파일로 존재하는 가이드는 사람만 읽는 문서다. 영향력이 낮은 게 아니라 아직 작동하지 않는 것.</div>
-          <div class="now-bar"><div class="now-bar-fill"></div></div>
-        </div>
-      </div>
-      <div class="note" style="border-left-color:var(--red);">
-        <strong>지금 문제.</strong>
-        브랜드 컨텍스트 없이 AI 툴을 쓰는 팀은 콘텐츠 하나당 30분의 브랜드 일관성 검토가 필요하고, 월 250시간을 검수에 소비하면서도 여전히 브랜드 기준에 맞지 않는 결과물이 나온다.
-        사람검수가 병목이 되는 이유는 앞단의 기준(MD)이 없기 때문이다.
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 3: 전후 비교 -->
+  <!-- SECTION 2 (구 섹션 3): 전후 비교 -->
   <div class="sec">
     <div class="sec-head">
       <div class="sec-num" style="background:var(--green);">3</div>
-      <div class="sec-title">MD/Foundation이 생기면 — 전후 비교</div>
-      <div class="sec-sub">각 요소가 어떻게 달라지는가</div>
+      <div class="sec-title">MD/Foundation이 생기면 — 나머지 3개가 전부 달라진다</div>
+      <div class="sec-sub">하나가 모든 것에 영향을 준다</div>
     </div>
     <div class="sec-body">
+      <div class="note" style="margin-bottom:24px; border-left-color:var(--blue);">
+        <strong>전후 비교를 보면 하나가 보인다.</strong>
+        MD/Foundation이 생기면 프롬프트가 가벼워지고, 스킬 편차가 줄어들고, 사람검수 비용이 내려간다.
+        나머지 3개의 무게와 효율이 전부 MD 하나에 의해 달라진다.
+        MD는 기준의 정확도에만 영향을 주는 게 아니라 — <strong>나머지 모든 요소의 작동 방식을 바꾼다.</strong>
+      </div>
       <div class="compare-wrap">
 
         <!-- MD -->
